@@ -12,8 +12,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Stage"
   DTS:PackageType="5"
-  DTS:VersionBuild="70"
-  DTS:VersionGUID="{21ABE826-34CC-4AF9-B6B1-8678BA992A9E}">
+  DTS:VersionBuild="71"
+  DTS:VersionGUID="{85912E95-DC3F-497D-942B-3BE75F816166}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -241,7 +241,7 @@
       DTS:Namespace="User"
       DTS:ObjectName="LOAD_TIME">
       <DTS:VariableValue
-        DTS:DataType="7">3/27/2017 11:10:38 PM</DTS:VariableValue>
+        DTS:DataType="7">3/27/2017 11:21:32 PM</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -1016,7 +1016,7 @@ SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableNam
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{12725851-3A9C-4143-AB16-7CC7DF64D336}"
-              SQLTask:SqlStatementSource="EXEC dbo.AuditTableLoad '','','2017-03-26','{397FFD95-926E-494B-A0B2-A5433C830E80}','3/27/2017 11:10:38 PM','BEFORE STAGE'" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              SQLTask:SqlStatementSource="EXEC dbo.AuditTableLoad '','','2017-03-26','{397FFD95-926E-494B-A0B2-A5433C830E80}','3/27/2017 11:21:32 PM','BEFORE STAGE'" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
       </DTS:Executables>
@@ -1365,6 +1365,13 @@ SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableNam
           Size="376,72"
           Id="8130fac9-9217-49b3-9fbe-8078291ba9cb"
           TopLeft="946,285" />
+        <AnnotationLayout
+          Text="Git"
+          ParentId="Package"
+          FontInfo="{x:Null}"
+          Size="44,60"
+          Id="2dd828d8-7b61-46d1-abac-712b766bb073"
+          TopLeft="1030,480" />
       </GraphLayout>
     </LayoutInfo>
   </Package>
