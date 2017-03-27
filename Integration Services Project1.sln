@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "StageDB", "Integration Services Project1\StageDB.dtproj", "{49A2FF51-57F3-4043-AB1A-8D93F1140EE8}"
+EndProject
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "DataStore", "DataStore\DataStore.dtproj", "{6C66E3D9-8DAE-41DF-ACC7-31BBB6D96724}"
+EndProject
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "DataMart_IFRS", "DataMart_IFRS\DataMart_IFRS.dtproj", "{BC9B9626-932F-4834-A4C0-E204013B4A41}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Development|Default = Development|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{49A2FF51-57F3-4043-AB1A-8D93F1140EE8}.Development|Default.ActiveCfg = Development
+		{49A2FF51-57F3-4043-AB1A-8D93F1140EE8}.Development|Default.Build.0 = Development
+		{6C66E3D9-8DAE-41DF-ACC7-31BBB6D96724}.Development|Default.ActiveCfg = Development
+		{6C66E3D9-8DAE-41DF-ACC7-31BBB6D96724}.Development|Default.Build.0 = Development
+		{BC9B9626-932F-4834-A4C0-E204013B4A41}.Development|Default.ActiveCfg = Development
+		{BC9B9626-932F-4834-A4C0-E204013B4A41}.Development|Default.Build.0 = Development
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

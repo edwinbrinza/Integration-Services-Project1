@@ -1,0 +1,1467 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="3/21/2017 11:31:09 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="ED-LAPTOP"
+  DTS:CreatorName="ED-LAPTOP\edwinbrinza"
+  DTS:DTSID="{C1BAECDE-2339-473F-A2AB-71C408EE53AF}"
+  DTS:EnableConfig="True"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="13.0.2165.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Stage"
+  DTS:PackageType="5"
+  DTS:VersionBuild="70"
+  DTS:VersionGUID="{21ABE826-34CC-4AF9-B6B1-8678BA992A9E}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Config DB]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{6FC27CC4-2875-4465-AE4F-9A576AD4DA72}"
+      DTS:ObjectName="Config DB">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=ED-LAPTOP\SQLEXPRESS;Initial Catalog=ConfigDB;Provider=SQLNCLI11.1;Integrated Security=SSPI;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Msdb]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{6D3BF9E6-AFD9-4A04-9886-7C6AABA4F399}"
+      DTS:ObjectName="Msdb">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=ED-LAPTOP\SQLEXPRESS;Initial Catalog=msdb;Provider=SQLNCLI11.1;Integrated Security=SSPI;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Source 1 DB]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{EBC28110-83AB-4ACE-B4A4-D2502CC8AEF1}"
+      DTS:ObjectName="Source 1 DB">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=ED-LAPTOP\SQLEXPRESS;Initial Catalog=Source_1_DB;Provider=SQLNCLI11.1;Integrated Security=SSPI;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Source 2 DB]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{565732AA-41FE-4290-AC7D-B34B548F9B62}"
+      DTS:ObjectName="Source 2 DB">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=ED-LAPTOP\SQLEXPRESS;Initial Catalog=Source_2_DB;Provider=SQLNCLI11.1;Integrated Security=SSPI;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Source_DB]"
+      DTS:CreationName="OLEDB"
+      DTS:DelayValidation="True"
+      DTS:DTSID="{BABE65F3-4708-4929-B3DB-1FFE1A536938}"
+      DTS:ObjectName="Source_DB">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[User::SourceConnString]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Stage DB]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{12725851-3A9C-4143-AB16-7CC7DF64D336}"
+      DTS:ObjectName="Stage DB">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=ED-LAPTOP\SQLEXPRESS;Initial Catalog=StageDB;Provider=SQLNCLI11.1;Integrated Security=SSPI;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Configurations>
+    <DTS:Configuration
+      DTS:ConfigurationString="ConfigDB"
+      DTS:ConfigurationType="2"
+      DTS:ConfigurationVariable="\Package.Connections[Config DB].Properties[ConnectionString]"
+      DTS:CreationName=""
+      DTS:DTSID="{30706DFB-0C40-46EA-B21E-93B1E5602A2E}"
+      DTS:ObjectName="Configuration - Config DB" />
+    <DTS:Configuration
+      DTS:ConfigurationString="&quot;Config DB&quot;;&quot;[dbo].[SSISConfigurations]&quot;;&quot;MSDB&quot;;"
+      DTS:ConfigurationType="7"
+      DTS:CreationName=""
+      DTS:DTSID="{9357AE58-0FA2-49F5-BB69-D967993B961A}"
+      DTS:ObjectName="Configuration - MSDB" />
+    <DTS:Configuration
+      DTS:ConfigurationString="&quot;Config DB&quot;;&quot;[dbo].[SSISConfigurations]&quot;;&quot;StageDB&quot;;"
+      DTS:ConfigurationType="7"
+      DTS:CreationName=""
+      DTS:DTSID="{346BA3F4-4713-493E-B6D0-892EA504C73C}"
+      DTS:ObjectName="Configuration - Stage DB" />
+    <DTS:Configuration
+      DTS:ConfigurationString="&quot;Config DB&quot;;&quot;[dbo].[SSISConfigurations]&quot;;&quot;Source1DB&quot;;"
+      DTS:ConfigurationType="7"
+      DTS:CreationName=""
+      DTS:DTSID="{9EFD521C-01E4-412A-A57C-ED004CAAEC10}"
+      DTS:ObjectName="Configuration - Source1 DB" />
+    <DTS:Configuration
+      DTS:ConfigurationString="&quot;Config DB&quot;;&quot;[dbo].[SSISConfigurations]&quot;;&quot;Source2DB&quot;;"
+      DTS:ConfigurationType="7"
+      DTS:CreationName=""
+      DTS:DTSID="{A653F59C-D7C7-4BB7-AFCE-25E6655CB2CE}"
+      DTS:ObjectName="Configuration 1" />
+  </DTS:Configurations>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="Msdb"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{CB7B3F79-43D0-4AEB-BC73-FA0ED8E363AC}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{F078554A-CDF0-41FC-BCF5-A1E7D125B22D}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="ADORecordSet">
+      <DTS:VariableValue
+        DTS:DataSubType="ManagedSerializable"
+        DTS:DataType="13">
+        <SOAP-ENV:Envelope xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+          <SOAP-ENV:Body>
+            <xsd:anyType
+              id="ref-1"></xsd:anyType>
+          </SOAP-ENV:Body>
+        </SOAP-ENV:Envelope>
+      </DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{DABB158E-0B42-45E8-BAFC-ECE7A8CDF6AE}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="(DT_DBTIMESTAMP) (DT_DATE) (DT_DBDATE) DATEADD( &quot;DD&quot;, -1,    @[User::LOAD_TIME])"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="BUSINESS_DATE">
+      <DTS:VariableValue
+        DTS:DataType="7">3/26/2017</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A8220FC0-2468-485D-94CF-E7149461892D}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ColumnName">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{0B8AD902-6163-44AF-B7B1-AEDAAAE89990}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="DestinationSchema">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{0A329320-4C55-43C4-BBCF-30B7B82F8CB8}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="DestinationTable">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{34A5312F-91C9-4884-9484-2D07411203B3}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::DestinationSchema] + &quot;.&quot; +  @[User::DestinationTable]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="DestinationTableName">
+      <DTS:VariableValue
+        DTS:DataType="8">.</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{1F9BA49D-ADAC-4C54-BAD1-5E2E89302F5C}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="ID">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{CC772143-251B-4A15-B568-B21964E6F0E0}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="LoadType">
+      <DTS:VariableValue
+        DTS:DataType="8">F</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{FB8AAA74-F1C9-4A66-879C-339DAC98DF89}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="LOAD_DATE_CFG">
+      <DTS:VariableValue
+        DTS:DataSubType="ManagedSerializable"
+        DTS:DataType="13">
+        <SOAP-ENV:Envelope xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+          <SOAP-ENV:Body>
+            <xsd:anyType
+              id="ref-1"></xsd:anyType>
+          </SOAP-ENV:Body>
+        </SOAP-ENV:Envelope>
+      </DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{FDF0E313-E8A3-44C6-B531-9C96D4D918AF}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="(DT_DATE)  (DT_DBTIMESTAMP2, 7)GETDATE()"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="LOAD_TIME">
+      <DTS:VariableValue
+        DTS:DataType="7">3/27/2017 11:10:38 PM</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{129AB48A-4EE2-437F-BA33-316F78D5C50F}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="SortColumns">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{0ADEEA84-AAF7-4140-A089-AF9B10E55A92}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="SourceConnString">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E9B2B2D1-BC93-42F8-AF65-C50BEA601424}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="SourceSchema">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{390C4048-9A2B-4749-8BEF-AB5A93F64111}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="SourceSystemID">
+      <DTS:VariableValue
+        DTS:DataType="3">1</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{79CF98E3-7C8D-4C77-9F91-20164F8A26A5}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="SourceTable">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{0EF8AEE7-762E-411D-BE86-3BCD6E6639E2}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::SourceSchema] + &quot;.&quot; +  @[User::SourceTable]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="SourceTableName">
+      <DTS:VariableValue
+        DTS:DataType="8">.</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{CB7B3F79-43D0-4AEB-BC73-FA0ED8E363AC}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Execute SQL Task -  Technical and Audit Columns"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{533C9C31-73CC-449E-A436-A19BB9FE8C79}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Execute SQL Task -  Technical and Audit Columns"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6FC27CC4-2875-4465-AE4F-9A576AD4DA72}"
+          SQLTask:SqlStatementSource="select &#xA;'LOAD_TIME' as ResultColumn,&#xA;'@[User::LOAD_TIME]' as Expression,&#xA;'DT_DBTIMESTAMP2' as DataType,&#xA;0 as Length,&#xA;0 as Precision,&#xA;7 as Scale,&#xA;0 as CodePage&#xA;union all&#xA;select &#xA;'EXEC_GUID' as ResultColumn,&#xA;'@[System::ExecutionInstanceGUID]' as Expression,&#xA;'DT_STR' as DataType,&#xA;50 as Length,&#xA;0 as Precision,&#xA;0 as Scale,&#xA;1252 as CodePage&#xA;union all&#xA;select &#xA;'VALID_FROM' as ResultColumn,&#xA;'@[User::BUSINESS_DATE]' as Expression,&#xA;'DT_DBTIMESTAMP' as DataType,&#xA;0 as Length,&#xA;0 as Precision,&#xA;0 as Scale,&#xA;0 as CodePage&#xA;union all&#xA;select &#xA;'STG_SK' as ResultColumn,&#xA;'0' as Expression,&#xA;'DT_I4' as DataType,&#xA;0 as Length,&#xA;0 as Precision,&#xA;0 as Scale,&#xA;0 as CodePage"
+          SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="0"
+            SQLTask:DtsVariableName="User::LOAD_DATE_CFG" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Execute SQL Task - Get connection string for source system ID"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{C1B104E5-5646-4C1C-BB05-5089C5AB55CB}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Execute SQL Task - Get connection string for source system ID"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="SqlStatementSource">"SELECT ConfiguredValue FROM dbo.SSISConfigurations c
+INNER JOIN dbo.SourceSystem s on c.ConfigurationFilter=s.ConfigurationFilter
+WHERE s.SourceSystemID=" +  (DT_WSTR, 10) @[User::SourceSystemID]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6FC27CC4-2875-4465-AE4F-9A576AD4DA72}"
+          SQLTask:SqlStatementSource="SELECT ConfiguredValue FROM dbo.SSISConfigurations c&#xA;INNER JOIN dbo.SourceSystem s on c.ConfigurationFilter=s.ConfigurationFilter&#xA;WHERE s.SourceSystemID=1"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="0"
+            SQLTask:DtsVariableName="User::SourceConnString" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Execute SQL Task - Get Table IDs"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{45D7C633-9951-4DDA-9DDB-983B4D642806}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Execute SQL Task - Get Table IDs"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="2">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="SqlStatementSource">"SELECT SourceTableID AS ID FROM dbo.SourceTable WHERE Enabled=1 AND SourceSystemID=" + (DT_WSTR, 10) @[User::SourceSystemID] + " GROUP BY SourceTableID ORDER BY SourceTableID"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6FC27CC4-2875-4465-AE4F-9A576AD4DA72}"
+          SQLTask:SqlStatementSource="SELECT SourceTableID AS ID FROM dbo.SourceTable WHERE Enabled=1 AND SourceSystemID=1 GROUP BY SourceTableID ORDER BY SourceTableID"
+          SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="0"
+            SQLTask:DtsVariableName="User::ADORecordSet" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Foreach Loop - Load tables"
+      DTS:CreationName="STOCK:FOREACHLOOP"
+      DTS:Description="Foreach Loop Container"
+      DTS:DTSID="{31521F64-CBDC-4F15-B08F-7417A83C07A3}"
+      DTS:ExecutableType="STOCK:FOREACHLOOP"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Foreach Loop - Load tables">
+      <DTS:ForEachEnumerator
+        DTS:CreationName="Microsoft.ForEachADOEnumerator"
+        DTS:DTSID="{3B604D68-9BDF-40C8-9EC9-500261DCB15F}"
+        DTS:ObjectName="{3B604D68-9BDF-40C8-9EC9-500261DCB15F}">
+        <DTS:ObjectData>
+          <FEEADO
+            EnumType="EnumerateRowsInFirstTable"
+            VarName="User::ADORecordSet" />
+        </DTS:ObjectData>
+      </DTS:ForEachEnumerator>
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop - Load tables\Data Flow Task Plus - Load table"
+          DTS:CreationName="CozyRoc.Pipeline"
+          DTS:DelayValidation="True"
+          DTS:Description="Data Flow Task Plus"
+          DTS:DTSID="{F9AF9AC2-0CA6-46A6-8134-2FED31D7220C}"
+          DTS:ExecutableType="CozyRoc.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Data Flow Task Plus - Load table"
+          DTS:TaskContact="Data Flow Task Plus;CozyRoc LLC; SSIS+; © 2006-2016 COZYROC LLC; All Rights Reserved; http://www.cozyroc.com/;0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  id="1"
+                  name="OLE DB Source"
+                  componentClassID="Microsoft.OLEDBSource"
+                  description="OLE DB Source"
+                  usesDispositions="true"
+                  validateExternalMetadata="False"
+                  version="7"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7">
+                  <properties>
+                    <property
+                      id="2"
+                      name="CommandTimeout"
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out.">0</property>
+                    <property
+                      id="3"
+                      name="OpenRowset"
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."></property>
+                    <property
+                      id="4"
+                      name="OpenRowsetVariable"
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset.">User::SourceTableName</property>
+                    <property
+                      id="5"
+                      name="SqlCommand"
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      id="6"
+                      name="SqlCommandVariable"
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."></property>
+                    <property
+                      id="7"
+                      name="DefaultCodePage"
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source.">1252</property>
+                    <property
+                      id="8"
+                      name="AlwaysUseDefaultCodePage"
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data.">false</property>
+                    <property
+                      id="9"
+                      name="AccessMode"
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      typeConverter="AccessMode">1</property>
+                    <property
+                      id="15"
+                      name="ParameterMapping"
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      id="10"
+                      name="OleDbConnection"
+                      description="The OLE DB runtime connection used to access the database."
+                      connectionManagerID="{BABE65F3-4708-4929-B3DB-1FFE1A536938}" />
+                  </connections>
+                  <outputs>
+                    <output
+                      id="11"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          id="42"
+                          name="THUNK_COLUMN"
+                          lineageId="42"
+                          dataType="bool"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          truncationRowDisposition="FailComponent"
+                          externalMetadataColumnId="41" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          id="41"
+                          name="THUNK_COLUMN"
+                          dataType="bool" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      id="12"
+                      name="OLE DB Source Error Output"
+                      isErrorOut="true">
+                      <outputColumns>
+                        <outputColumn
+                          id="13"
+                          name="ErrorCode"
+                          lineageId="13"
+                          dataType="i4"
+                          specialFlags="1" />
+                        <outputColumn
+                          id="14"
+                          name="ErrorColumn"
+                          lineageId="14"
+                          dataType="i4"
+                          specialFlags="2" />
+                        <outputColumn
+                          id="43"
+                          name="THUNK_COLUMN"
+                          lineageId="43"
+                          dataType="bool" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  id="16"
+                  name="OLE DB Destination"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  description="OLE DB Destination"
+                  usesDispositions="true"
+                  validateExternalMetadata="False"
+                  version="4"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4">
+                  <properties>
+                    <property
+                      id="17"
+                      name="CommandTimeout"
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out.">0</property>
+                    <property
+                      id="18"
+                      name="OpenRowset"
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."></property>
+                    <property
+                      id="19"
+                      name="OpenRowsetVariable"
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset.">User::DestinationTableName</property>
+                    <property
+                      id="20"
+                      name="SqlCommand"
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      id="21"
+                      name="DefaultCodePage"
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source.">1252</property>
+                    <property
+                      id="22"
+                      name="AlwaysUseDefaultCodePage"
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data.">false</property>
+                    <property
+                      id="23"
+                      name="AccessMode"
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      typeConverter="AccessMode">4</property>
+                    <property
+                      id="25"
+                      name="FastLoadKeepIdentity"
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on.">false</property>
+                    <property
+                      id="26"
+                      name="FastLoadKeepNulls"
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on.">false</property>
+                    <property
+                      id="27"
+                      name="FastLoadOptions"
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."></property>
+                    <property
+                      id="28"
+                      name="FastLoadMaxInsertCommitSize"
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on.">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      id="24"
+                      name="OleDbConnection"
+                      description="The OLE DB runtime connection used to access the database."
+                      connectionManagerID="{12725851-3A9C-4143-AB16-7CC7DF64D336}" />
+                  </connections>
+                  <inputs>
+                    <input
+                      id="29"
+                      name="OLE DB Destination Input"
+                      hasSideEffects="true"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent">
+                      <inputColumns>
+                        <inputColumn
+                          id="45"
+                          lineageId="42"
+                          externalMetadataColumnId="44"
+                          cachedName="THUNK_COLUMN"
+                          cachedDataType="bool" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          id="44"
+                          name="THUNK_COLUMN"
+                          dataType="bool" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      id="30"
+                      name="OLE DB Destination Error Output"
+                      exclusionGroup="1"
+                      synchronousInputId="29"
+                      isErrorOut="true">
+                      <outputColumns>
+                        <outputColumn
+                          id="31"
+                          name="ErrorCode"
+                          lineageId="31"
+                          dataType="i4"
+                          specialFlags="1" />
+                        <outputColumn
+                          id="32"
+                          name="ErrorColumn"
+                          lineageId="32"
+                          dataType="i4"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  id="33"
+                  name="Derived Column"
+                  componentClassID="Microsoft.DerivedColumn"
+                  description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+                  usesDispositions="true"
+                  validateExternalMetadata="False"
+                  contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0">
+                  <inputs>
+                    <input
+                      id="34"
+                      name="Derived Column Input"
+                      description="Input to the Derived Column Transformation">
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      id="35"
+                      name="Derived Column Output"
+                      description="Default Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      synchronousInputId="34">
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      id="36"
+                      name="Derived Column Error Output"
+                      description="Error Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      synchronousInputId="34"
+                      isErrorOut="true">
+                      <outputColumns>
+                        <outputColumn
+                          id="37"
+                          name="ErrorCode"
+                          lineageId="37"
+                          dataType="i4"
+                          specialFlags="1" />
+                        <outputColumn
+                          id="38"
+                          name="ErrorColumn"
+                          lineageId="38"
+                          dataType="i4"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  id="39"
+                  name="OLE DB Source Output"
+                  startId="11"
+                  endId="34" />
+                <path
+                  id="40"
+                  name="Derived Column Output"
+                  startId="35"
+                  endId="29" />
+              </paths>
+              <ScriptProject
+                Name="ST_5088b1443464418bb10d090072c10f51"
+                VSTAMajorVersion="14"
+                VSTAMinorVersion="0"
+                Language="CSharp" />
+              <ArrayOfDynamicComponentProperties xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+                <DynamicComponentProperties>
+                  <item>
+                    <key>
+                      <string>ID</string>
+                    </key>
+                    <value>
+                      <anyType
+                        xsi:type="xsd:int">16</anyType>
+                    </value>
+                  </item>
+                  <item>
+                    <key>
+                      <string>IsMappingVariable</string>
+                    </key>
+                    <value>
+                      <anyType
+                        xsi:type="xsd:boolean">true</anyType>
+                    </value>
+                  </item>
+                  <item>
+                    <key>
+                      <string>Mapping</string>
+                    </key>
+                    <value>
+                      <anyType
+                        xsi:type="xsd:string">User::ColumnName</anyType>
+                    </value>
+                  </item>
+                  <item>
+                    <key>
+                      <string>MandatoryMapping</string>
+                    </key>
+                    <value>
+                      <anyType
+                        xsi:type="xsd:int">2</anyType>
+                    </value>
+                  </item>
+                  <item>
+                    <key>
+                      <string>MandatoryMappingList</string>
+                    </key>
+                    <value>
+                      <anyType
+                        xsi:type="xsd:string"></anyType>
+                    </value>
+                  </item>
+                </DynamicComponentProperties>
+                <DynamicComponentProperties>
+                  <item>
+                    <key>
+                      <string>ID</string>
+                    </key>
+                    <value>
+                      <anyType
+                        xsi:type="xsd:int">1</anyType>
+                    </value>
+                  </item>
+                  <item>
+                    <key>
+                      <string>FilterType</string>
+                    </key>
+                    <value>
+                      <anyType
+                        xsi:type="xsd:int">0</anyType>
+                    </value>
+                  </item>
+                  <item>
+                    <key>
+                      <string>Filter</string>
+                    </key>
+                    <value>
+                      <anyType
+                        xsi:type="xsd:string"></anyType>
+                    </value>
+                  </item>
+                  <item>
+                    <key>
+                      <string>ErrorRowDisposition</string>
+                    </key>
+                    <value>
+                      <anyType
+                        xsi:type="xsd:int">4</anyType>
+                    </value>
+                  </item>
+                  <item>
+                    <key>
+                      <string>TruncationRowDisposition</string>
+                    </key>
+                    <value>
+                      <anyType
+                        xsi:type="xsd:int">4</anyType>
+                    </value>
+                  </item>
+                </DynamicComponentProperties>
+                <DynamicComponentProperties>
+                  <item>
+                    <key>
+                      <string>ID</string>
+                    </key>
+                    <value>
+                      <anyType
+                        xsi:type="xsd:int">33</anyType>
+                    </value>
+                  </item>
+                  <item>
+                    <key>
+                      <string>DerivedConfigurationVariable</string>
+                    </key>
+                    <value>
+                      <anyType
+                        xsi:type="xsd:string">User::LOAD_DATE_CFG</anyType>
+                    </value>
+                  </item>
+                </DynamicComponentProperties>
+              </ArrayOfDynamicComponentProperties>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop - Load tables\Execute SQL Task - End audit load"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{50a4047b-e703-40b7-ac95-6a8a28e79c96}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="1033"
+          DTS:ObjectName="Execute SQL Task - End audit load"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:PropertyExpression
+            DTS:Name="SqlStatementSource">"UPDATE dbo.TABLE_LOAD_AUDIT SET LOAD_STATUS = 'STAGED' WHERE TABLE_SCHEMA='" + @[User::DestinationSchema] + "' AND TABLE_NAME = '"+ @[User::DestinationTable] + "' AND BUSINESS_DATE='" + (DT_WSTR, 20)  (DT_DBDATE) @[User::BUSINESS_DATE] +"'"</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{12725851-3A9C-4143-AB16-7CC7DF64D336}"
+              SQLTask:SqlStatementSource="UPDATE dbo.TABLE_LOAD_AUDIT SET LOAD_STATUS = 'STAGED' WHERE TABLE_SCHEMA='' AND TABLE_NAME = '' AND BUSINESS_DATE='2017-03-26'" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop - Load tables\Execute SQL Task - Get Source and Destination Column Info"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{9E2E6652-94C7-4A2E-846B-405C96DF3817}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Execute SQL Task - Get Source and Destination Column Info"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:PropertyExpression
+            DTS:Name="SqlStatementSource">"DECLARE @Mapping NVARCHAR (4000) = '';
+DECLARE @Cnt	 INT = 0;
+DECLARE @Rid	 INT = 1;
+DECLARE @Key	 INT = 0;
+DECLARE @SourceColumnName SYSNAME;
+DECLARE @DestinationColumnName SYSNAME;
+
+SELECT @Cnt = COUNT(*)
+FROM dbo.SourceColumn
+WHERE SourceTableID = " +   (DT_WSTR, 10) @[User::ID] + ";
+
+--SELECT @Cnt;
+
+WHILE @Rid &lt;= @Cnt 
+
+	BEGIN;
+	
+	--SELECT @Key;
+	
+	SELECT @Key = MIN(SourceColumnID)
+	FROM dbo.SourceColumn
+	WHERE SourceTableID =  " +   (DT_WSTR, 10) @[User::ID] + " 
+	AND	  SourceColumnID &gt; @Key;
+	
+	SELECT @SourceColumnName = SourceColumnName
+	FROM dbo.SourceColumn 
+	WHERE SourceColumnID = @Key;
+
+	SELECT @DestinationColumnName = DestinationColumnName
+	FROM dbo.DestinationColumn 
+	WHERE DestinationColumnID = @Key;
+	
+	SET @Mapping = @Mapping + @SourceColumnName + '=' + @DestinationColumnName + CASE WHEN @Rid &lt;&gt; @Cnt THEN '\r\n' ELSE '' END;
+	
+	SET @Rid += 1;
+	
+	END;
+	
+SELECT @Mapping;"</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{6FC27CC4-2875-4465-AE4F-9A576AD4DA72}"
+              SQLTask:SqlStatementSource="DECLARE @Mapping NVARCHAR (4000) = '';&#xA;DECLARE @Cnt&#x9; INT = 0;&#xA;DECLARE @Rid&#x9; INT = 1;&#xA;DECLARE @Key&#x9; INT = 0;&#xA;DECLARE @SourceColumnName SYSNAME;&#xA;DECLARE @DestinationColumnName SYSNAME;&#xA;&#xA;SELECT @Cnt = COUNT(*)&#xA;FROM dbo.SourceColumn&#xA;WHERE SourceTableID = 0;&#xA;&#xA;--SELECT @Cnt;&#xA;&#xA;WHILE @Rid &lt;= @Cnt &#xA;&#xA;&#x9;BEGIN;&#xA;&#x9;&#xA;&#x9;--SELECT @Key;&#xA;&#x9;&#xA;&#x9;SELECT @Key = MIN(SourceColumnID)&#xA;&#x9;FROM dbo.SourceColumn&#xA;&#x9;WHERE SourceTableID =  0 &#xA;&#x9;AND&#x9;  SourceColumnID &gt; @Key;&#xA;&#x9;&#xA;&#x9;SELECT @SourceColumnName = SourceColumnName&#xA;&#x9;FROM dbo.SourceColumn &#xA;&#x9;WHERE SourceColumnID = @Key;&#xA;&#xA;&#x9;SELECT @DestinationColumnName = DestinationColumnName&#xA;&#x9;FROM dbo.DestinationColumn &#xA;&#x9;WHERE DestinationColumnID = @Key;&#xA;&#x9;&#xA;&#x9;SET @Mapping = @Mapping + @SourceColumnName + '=' + @DestinationColumnName + CASE WHEN @Rid &lt;&gt; @Cnt THEN '&#xA;' ELSE '' END;&#xA;&#x9;&#xA;&#x9;SET @Rid += 1;&#xA;&#x9;&#xA;&#x9;END;&#xA;&#x9;&#xA;SELECT @Mapping;"
+              SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="0"
+                SQLTask:DtsVariableName="User::ColumnName" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop - Load tables\Execute SQL Task - Get Source and Destination Table Info"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{BCCE1C9B-B06A-442E-90B0-A5E488836EBF}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Execute SQL Task - Get Source and Destination Table Info"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:PropertyExpression
+            DTS:Name="SqlStatementSource">"DECLARE @SourceSchema SYSNAME;
+DECLARE @SourceTableName SYSNAME;
+DECLARE @DestinationSchema SYSNAME;
+DECLARE @DestinationTableName SYSNAME;
+
+DECLARE @SortColumns SYSNAME; DECLARE @LoadType SYSNAME; 
+SELECT 
+		@SourceSchema = SourceSchema,
+		@SourceTableName = SourceTableName
+FROM	dbo.SourceTable	
+WHERE	SourceTableID = " +   (DT_WSTR, 10) @[User::ID] + ";
+
+SELECT 
+		@DestinationSchema = DestinationSchema,
+		@DestinationTableName = DestinationTableName,
+		 @LoadType=LoadType 
+FROM	dbo.DestinationTable	
+WHERE	DestinationTableID = " +   (DT_WSTR, 10) @[User::ID] +     ";
+
+SELECT @SortColumns=SortColumns from (
+SELECT DestinationTableID, STUFF(  
+        (  
+        SELECT ',' + T2.DestinationColumnName 
+
+		FROM DestinationColumn T2  
+        WHERE T1.DestinationTableID = T2.DestinationTableID  
+		and T2.KeyOrder is not null order by T2.KeyOrder
+        FOR XML PATH ('')  
+        ),1,1,'') as SortColumns
+FROM DestinationColumn T1 
+GROUP BY DestinationTableID) T 
+where T.DestinationTableID=" +   (DT_WSTR, 10) @[User::ID] + ";
+
+
+SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableName,  @SortColumns,@LoadType;"</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{6FC27CC4-2875-4465-AE4F-9A576AD4DA72}"
+              SQLTask:SqlStatementSource="DECLARE @SourceSchema SYSNAME;&#xA;DECLARE @SourceTableName SYSNAME;&#xA;DECLARE @DestinationSchema SYSNAME;&#xA;DECLARE @DestinationTableName SYSNAME;&#xA;&#xA;DECLARE @SortColumns SYSNAME; DECLARE @LoadType SYSNAME; &#xA;SELECT &#xA;&#x9;&#x9;@SourceSchema = SourceSchema,&#xA;&#x9;&#x9;@SourceTableName = SourceTableName&#xA;FROM&#x9;dbo.SourceTable&#x9;&#xA;WHERE&#x9;SourceTableID = 0;&#xA;&#xA;SELECT &#xA;&#x9;&#x9;@DestinationSchema = DestinationSchema,&#xA;&#x9;&#x9;@DestinationTableName = DestinationTableName,&#xA;&#x9;&#x9; @LoadType=LoadType &#xA;FROM&#x9;dbo.DestinationTable&#x9;&#xA;WHERE&#x9;DestinationTableID = 0;&#xA;&#xA;SELECT @SortColumns=SortColumns from (&#xA;SELECT DestinationTableID, STUFF(  &#xA;        (  &#xA;        SELECT ',' + T2.DestinationColumnName &#xA;&#xA;&#x9;&#x9;FROM DestinationColumn T2  &#xA;        WHERE T1.DestinationTableID = T2.DestinationTableID  &#xA;&#x9;&#x9;and T2.KeyOrder is not null order by T2.KeyOrder&#xA;        FOR XML PATH ('')  &#xA;        ),1,1,'') as SortColumns&#xA;FROM DestinationColumn T1 &#xA;GROUP BY DestinationTableID) T &#xA;where T.DestinationTableID=0;&#xA;&#xA;&#xA;SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableName,  @SortColumns,@LoadType;"
+              SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="0"
+                SQLTask:DtsVariableName="User::SourceSchema" />
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="1"
+                SQLTask:DtsVariableName="User::SourceTable" />
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="2"
+                SQLTask:DtsVariableName="User::DestinationSchema" />
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="3"
+                SQLTask:DtsVariableName="User::DestinationTable" />
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="4"
+                SQLTask:DtsVariableName="User::SortColumns" />
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="5"
+                SQLTask:DtsVariableName="User::LoadType" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop - Load tables\Execute SQL Task - Start audit load"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{4769AA45-9E6F-4796-A0BE-2E89C6B3A72D}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="1033"
+          DTS:ObjectName="Execute SQL Task - Start audit load"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:PropertyExpression
+            DTS:Name="SqlStatementSource">"EXEC dbo.AuditTableLoad '" + @[User::DestinationSchema] + "','"+ @[User::DestinationTable] + "','" + (DT_WSTR, 20)  (DT_DBDATE) @[User::BUSINESS_DATE] +"','"+ @[System::ExecutionInstanceGUID] +"','"+ (DT_WSTR, 30) @[User::LOAD_TIME] +"','BEFORE STAGE'"</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{12725851-3A9C-4143-AB16-7CC7DF64D336}"
+              SQLTask:SqlStatementSource="EXEC dbo.AuditTableLoad '','','2017-03-26','{397FFD95-926E-494B-A0B2-A5433C830E80}','3/27/2017 11:10:38 PM','BEFORE STAGE'" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach Loop - Load tables.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{D01BBB87-8F60-4752-B4E3-DE3FD5BE85F4}"
+          DTS:From="Package\Foreach Loop - Load tables\Execute SQL Task - Get Source and Destination Table Info"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Foreach Loop - Load tables\Execute SQL Task - Get Source and Destination Column Info" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach Loop - Load tables.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{A1D21808-C0E4-40FC-821F-EF5CB7027DD5}"
+          DTS:From="Package\Foreach Loop - Load tables\Execute SQL Task - Get Source and Destination Column Info"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\Foreach Loop - Load tables\Execute SQL Task - Start audit load" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach Loop - Load tables.PrecedenceConstraints[Constraint 2]"
+          DTS:CreationName=""
+          DTS:DTSID="{AC94353C-E28F-4D37-830E-F93690438F1F}"
+          DTS:From="Package\Foreach Loop - Load tables\Execute SQL Task - Start audit load"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 2"
+          DTS:To="Package\Foreach Loop - Load tables\Data Flow Task Plus - Load table" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach Loop - Load tables.PrecedenceConstraints[Constraint 3]"
+          DTS:CreationName=""
+          DTS:DTSID="{C4738A04-E4FA-478A-B3C1-2F1992942FAE}"
+          DTS:From="Package\Foreach Loop - Load tables\Data Flow Task Plus - Load table"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 3"
+          DTS:To="Package\Foreach Loop - Load tables\Execute SQL Task - End audit load" />
+      </DTS:PrecedenceConstraints>
+      <DTS:ForEachVariableMappings>
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{4936BA7B-BAB1-4517-BCAA-CF4938D4591C}"
+          DTS:ObjectName="{4936BA7B-BAB1-4517-BCAA-CF4938D4591C}"
+          DTS:ValueIndex="0"
+          DTS:VariableName="User::ID" />
+      </DTS:ForEachVariableMappings>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{7E8CCB35-1A69-462D-80CE-34B08FE76ADD}"
+      DTS:From="Package\Execute SQL Task - Get Table IDs"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Foreach Loop - Load tables" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{4723FBAE-8248-49AC-A0E7-650300568580}"
+      DTS:From="Package\Execute SQL Task -  Technical and Audit Columns"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Foreach Loop - Load tables" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{16E1C456-D51D-4BD1-A950-2481A2F57AFB}"
+      DTS:From="Package\Execute SQL Task - Get connection string for source system ID"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Foreach Loop - Load tables" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssge="clr-namespace:Microsoft.SqlServer.Graph.Extended;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+        <NodeLayout
+          Size="313,42"
+          Id="Package\Execute SQL Task -  Technical and Audit Columns"
+          TopLeft="702,132" />
+        <NodeLayout
+          Size="376,42"
+          Id="Package\Execute SQL Task - Get connection string for source system ID"
+          TopLeft="468,50" />
+        <NodeLayout
+          Size="239,42"
+          Id="Package\Execute SQL Task - Get Table IDs"
+          TopLeft="375,129" />
+        <NodeLayout
+          Size="362,42"
+          Id="Package\Foreach Loop - Load tables\Data Flow Task Plus - Load table"
+          TopLeft="59,241" />
+        <NodeLayout
+          Size="364,42"
+          Id="Package\Foreach Loop - Load tables\Execute SQL Task - Get Source and Destination Column Info"
+          TopLeft="55,95" />
+        <NodeLayout
+          Size="362,42"
+          Id="Package\Foreach Loop - Load tables\Execute SQL Task - Get Source and Destination Table Info"
+          TopLeft="51,26" />
+        <EdgeLayout
+          Id="Package\Foreach Loop - Load tables.PrecedenceConstraints[Constraint]"
+          TopLeft="234.5,68">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,27"
+              Start="0,0"
+              End="0,19.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="356,42"
+          Id="Package\Foreach Loop - Load tables\Execute SQL Task - Start audit load"
+          TopLeft="59,164" />
+        <EdgeLayout
+          Id="Package\Foreach Loop - Load tables.PrecedenceConstraints[Constraint 1]"
+          TopLeft="237,137">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,27"
+              Start="0,0"
+              End="0,19.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Foreach Loop - Load tables.PrecedenceConstraints[Constraint 2]"
+          TopLeft="238.5,206">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,35"
+              Start="0,0"
+              End="0,27.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,27.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="359,42"
+          Id="Package\Foreach Loop - Load tables\Execute SQL Task - End audit load"
+          TopLeft="61,317" />
+        <EdgeLayout
+          Id="Package\Foreach Loop - Load tables.PrecedenceConstraints[Constraint 3]"
+          TopLeft="240.25,283">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,34"
+              Start="0,0"
+              End="0,26.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="549,416"
+          Size="549,459"
+          Id="Package\Foreach Loop - Load tables"
+          TopLeft="377,226" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="494.5,171">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="21.75,55"
+              Start="0,0"
+              End="21.75,47.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32.4894259818731" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,32.4894259818731"
+                    Point2="0,36.4894259818731"
+                    Point3="4,36.4894259818731" />
+                  <mssgle:LineSegment
+                    End="17.75,36.4894259818731" />
+                  <mssgle:CubicBezierSegment
+                    Point1="17.75,36.4894259818731"
+                    Point2="21.75,36.4894259818731"
+                    Point3="21.75,40.4894259818731" />
+                  <mssgle:LineSegment
+                    End="21.75,47.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="858.5,174">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="-71.75,52"
+              Start="0,0"
+              End="-71.75,44.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.4990936555891" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,30.4990936555891"
+                    Point2="0,34.4990936555891"
+                    Point3="-4,34.4990936555891" />
+                  <mssgle:LineSegment
+                    End="-67.75,34.4990936555891" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-67.75,34.4990936555891"
+                    Point2="-71.75,34.4990936555891"
+                    Point3="-71.75,38.4990936555891" />
+                  <mssgle:LineSegment
+                    End="-71.75,44.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="653.75,92">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,134"
+              Start="0,0"
+              End="0,126.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,126.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <AnnotationLayout
+          Text="1 - BEFORE CONFIGURING THIS DTSX:&#xA;- make sure that all DBs are created"
+          ParentId="Package"
+          Size="308,58"
+          Id="ae1f3ac7-65e5-45ee-87c6-136921d6bd03"
+          TopLeft="32,18">
+          <AnnotationLayout.FontInfo>
+            <mssge:FontInfo
+              Family="Tahoma"
+              Size="14.25"
+              Color="#FFFF0000"
+              Weight="Bold">
+              <mssge:FontInfo.TextDecorations>
+                <av:TextDecorationCollection />
+              </mssge:FontInfo.TextDecorations>
+            </mssge:FontInfo>
+          </AnnotationLayout.FontInfo>
+        </AnnotationLayout>
+        <AnnotationLayout
+          Text="The SOURCE SYSTEM connection is dynamic, &#xA;its connection string is retrieved from SSISConfiguration, based on the SourceSystemID variable,&#xA;which is set at runtime (for example passed as a job parameter)"
+          ParentId="Package"
+          FontInfo="{x:Null}"
+          Size="536,72"
+          Id="149aed85-c1e5-4ce3-8e9f-e2ac87d4625c"
+          TopLeft="865,33" />
+        <AnnotationLayout
+          Text="Here we set the values of the audit columns of StageDB tables"
+          ParentId="Package"
+          FontInfo="{x:Null}"
+          Size="357,40"
+          Id="939efb69-58d2-4e63-ad52-91045b3a2e77"
+          TopLeft="1047,135" />
+        <AnnotationLayout
+          Text="We create a list with all the IDs of the tables &#xA;that must be imported from Source System"
+          ParentId="Package"
+          FontInfo="{x:Null}"
+          Size="263,56"
+          Id="e5ffed94-1dce-45ee-a49a-4a17aeb883c9"
+          TopLeft="101,131" />
+        <AnnotationLayout
+          Text="For each table ID in the list:&#xA;- get the names of the source and destination schema and table&#xA;- get the column mapping between source and destination tables"
+          ParentId="Package"
+          FontInfo="{x:Null}"
+          Size="376,72"
+          Id="8130fac9-9217-49b3-9fbe-8078291ba9cb"
+          TopLeft="946,285" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <ConnectionManager
+    design-time-name="Package.ConnectionManagers[Config DB]">
+    <DataSourceID>Config DB</DataSourceID>
+  </ConnectionManager>
+  <ConnectionManager
+    design-time-name="Package.ConnectionManagers[Msdb]">
+    <DataSourceID>Msdb</DataSourceID>
+  </ConnectionManager>
+  <ConnectionManager
+    design-time-name="Package.ConnectionManagers[Source 1 DB]">
+    <DataSourceID>Source 1 DB</DataSourceID>
+  </ConnectionManager>
+  <ConnectionManager
+    design-time-name="Package.ConnectionManagers[Source 2 DB]">
+    <DataSourceID>Source 2 DB</DataSourceID>
+  </ConnectionManager>
+  <ConnectionManager
+    design-time-name="Package.ConnectionManagers[Stage DB]">
+    <DataSourceID>Stage DB</DataSourceID>
+  </ConnectionManager>
+  <TaskHost
+    design-time-name="Package\Foreach Loop - Load tables\Data Flow Task Plus - Load table">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="153.6,41.6"
+          Id="33"
+          TopLeft="176,152" />
+        <NodeLayout
+          Size="171.2,41.6"
+          Id="16"
+          TopLeft="172,246" />
+        <NodeLayout
+          Size="150.4,41.6"
+          Id="1"
+          TopLeft="175,69" />
+        <EdgeLayout
+          Id="40"
+          TopLeft="255.25,194">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,52"
+              Start="0,0"
+              End="0,44.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,44.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="39"
+          TopLeft="251.5,111">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,41"
+              Start="0,0"
+              End="0,33.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,33.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <AnnotationLayout
+          Text="IMPORTANT: Edit the OLE DB SRC/DEST only using Show Advanced Editor&#xA;The SRC should have only a dummy column named THUNK_COLUMN, the rest of the columns will be set dynamically"
+          ParentId="Package\Foreach Loop - Load tables\Data Flow Task Plus - Load table"
+          FontInfo="{x:Null}"
+          Size="648,NaN"
+          Id="58001010-6603-4d22-be02-80236930ff11"
+          TopLeft="452,67" />
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
