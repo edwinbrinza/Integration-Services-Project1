@@ -12,8 +12,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Stage"
   DTS:PackageType="5"
-  DTS:VersionBuild="71"
-  DTS:VersionGUID="{85912E95-DC3F-497D-942B-3BE75F816166}">
+  DTS:VersionBuild="72"
+  DTS:VersionGUID="{15D8CBB8-3890-4ECF-B294-D621CEAEDCEC}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -153,7 +153,7 @@
       DTS:Namespace="User"
       DTS:ObjectName="BUSINESS_DATE">
       <DTS:VariableValue
-        DTS:DataType="7">3/26/2017</DTS:VariableValue>
+        DTS:DataType="7">3/27/2017</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -241,7 +241,7 @@
       DTS:Namespace="User"
       DTS:ObjectName="LOAD_TIME">
       <DTS:VariableValue
-        DTS:DataType="7">3/27/2017 11:21:32 PM</DTS:VariableValue>
+        DTS:DataType="7">3/28/2017 11:03:06 PM</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -596,7 +596,7 @@ WHERE s.SourceSystemID=" +  (DT_WSTR, 10) @[User::SourceSystemID]</DTS:PropertyE
                       id="27"
                       name="FastLoadOptions"
                       dataType="System.String"
-                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."></property>
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on.">TABLOCK,CHECK_CONSTRAINTS</property>
                     <property
                       id="28"
                       name="FastLoadMaxInsertCommitSize"
@@ -862,7 +862,7 @@ WHERE s.SourceSystemID=" +  (DT_WSTR, 10) @[User::SourceSystemID]</DTS:PropertyE
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{12725851-3A9C-4143-AB16-7CC7DF64D336}"
-              SQLTask:SqlStatementSource="UPDATE dbo.TABLE_LOAD_AUDIT SET LOAD_STATUS = 'STAGED' WHERE TABLE_SCHEMA='' AND TABLE_NAME = '' AND BUSINESS_DATE='2017-03-26'" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              SQLTask:SqlStatementSource="UPDATE dbo.TABLE_LOAD_AUDIT SET LOAD_STATUS = 'STAGED' WHERE TABLE_SCHEMA='' AND TABLE_NAME = '' AND BUSINESS_DATE='2017-03-27'" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
@@ -1016,7 +1016,7 @@ SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableNam
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{12725851-3A9C-4143-AB16-7CC7DF64D336}"
-              SQLTask:SqlStatementSource="EXEC dbo.AuditTableLoad '','','2017-03-26','{397FFD95-926E-494B-A0B2-A5433C830E80}','3/27/2017 11:21:32 PM','BEFORE STAGE'" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              SQLTask:SqlStatementSource="EXEC dbo.AuditTableLoad '','','2017-03-27','{18848172-EE55-4B7F-A8DC-34EFD9925D54}','3/28/2017 11:03:06 PM','BEFORE STAGE'" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
       </DTS:Executables>
@@ -1103,29 +1103,37 @@ SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableNam
       <GraphLayout
         Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssge="clr-namespace:Microsoft.SqlServer.Graph.Extended;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
         <NodeLayout
-          Size="313,42"
+          Size="312.8,41.6"
           Id="Package\Execute SQL Task -  Technical and Audit Columns"
           TopLeft="702,132" />
         <NodeLayout
-          Size="376,42"
+          Size="376,41.6"
           Id="Package\Execute SQL Task - Get connection string for source system ID"
           TopLeft="468,50" />
         <NodeLayout
-          Size="239,42"
+          Size="239.2,41.6"
           Id="Package\Execute SQL Task - Get Table IDs"
           TopLeft="375,129" />
         <NodeLayout
-          Size="362,42"
+          Size="361.6,41.6"
           Id="Package\Foreach Loop - Load tables\Data Flow Task Plus - Load table"
           TopLeft="59,241" />
         <NodeLayout
-          Size="364,42"
+          Size="359.2,41.6"
+          Id="Package\Foreach Loop - Load tables\Execute SQL Task - End audit load"
+          TopLeft="61,317" />
+        <NodeLayout
+          Size="364,41.6"
           Id="Package\Foreach Loop - Load tables\Execute SQL Task - Get Source and Destination Column Info"
           TopLeft="55,95" />
         <NodeLayout
-          Size="362,42"
+          Size="361.6,41.6"
           Id="Package\Foreach Loop - Load tables\Execute SQL Task - Get Source and Destination Table Info"
           TopLeft="51,26" />
+        <NodeLayout
+          Size="356,41.6"
+          Id="Package\Foreach Loop - Load tables\Execute SQL Task - Start audit load"
+          TopLeft="59,164" />
         <EdgeLayout
           Id="Package\Foreach Loop - Load tables.PrecedenceConstraints[Constraint]"
           TopLeft="234.5,68">
@@ -1148,10 +1156,6 @@ SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableNam
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="356,42"
-          Id="Package\Foreach Loop - Load tables\Execute SQL Task - Start audit load"
-          TopLeft="59,164" />
         <EdgeLayout
           Id="Package\Foreach Loop - Load tables.PrecedenceConstraints[Constraint 1]"
           TopLeft="237,137">
@@ -1196,10 +1200,6 @@ SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableNam
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="359,42"
-          Id="Package\Foreach Loop - Load tables\Execute SQL Task - End audit load"
-          TopLeft="61,317" />
         <EdgeLayout
           Id="Package\Foreach Loop - Load tables.PrecedenceConstraints[Constraint 3]"
           TopLeft="240.25,283">
@@ -1225,8 +1225,8 @@ SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableNam
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="549,416"
-          Size="549,459"
+          PanelSize="548.8,416"
+          Size="548.8,459.2"
           Id="Package\Foreach Loop - Load tables"
           TopLeft="377,226" />
         <EdgeLayout
@@ -1322,7 +1322,7 @@ SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableNam
         <AnnotationLayout
           Text="1 - BEFORE CONFIGURING THIS DTSX:&#xA;- make sure that all DBs are created"
           ParentId="Package"
-          Size="308,58"
+          Size="308,58.4"
           Id="ae1f3ac7-65e5-45ee-87c6-136921d6bd03"
           TopLeft="32,18">
           <AnnotationLayout.FontInfo>
@@ -1348,14 +1348,14 @@ SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableNam
           Text="Here we set the values of the audit columns of StageDB tables"
           ParentId="Package"
           FontInfo="{x:Null}"
-          Size="357,40"
+          Size="356.8,40"
           Id="939efb69-58d2-4e63-ad52-91045b3a2e77"
           TopLeft="1047,135" />
         <AnnotationLayout
           Text="We create a list with all the IDs of the tables &#xA;that must be imported from Source System"
           ParentId="Package"
           FontInfo="{x:Null}"
-          Size="263,56"
+          Size="263.2,56"
           Id="e5ffed94-1dce-45ee-a49a-4a17aeb883c9"
           TopLeft="101,131" />
         <AnnotationLayout
@@ -1369,7 +1369,7 @@ SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableNam
           Text="Git"
           ParentId="Package"
           FontInfo="{x:Null}"
-          Size="44,60"
+          Size="44,40"
           Id="2dd828d8-7b61-46d1-abac-712b766bb073"
           TopLeft="1030,480" />
       </GraphLayout>
@@ -1399,7 +1399,7 @@ SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableNam
     design-time-name="Package\Foreach Loop - Load tables\Data Flow Task Plus - Load table">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="153.6,41.6"
           Id="33"
@@ -1431,9 +1431,7 @@ SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableNam
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -1455,16 +1453,14 @@ SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableNam
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <AnnotationLayout
           Text="IMPORTANT: Edit the OLE DB SRC/DEST only using Show Advanced Editor&#xA;The SRC should have only a dummy column named THUNK_COLUMN, the rest of the columns will be set dynamically"
           ParentId="Package\Foreach Loop - Load tables\Data Flow Task Plus - Load table"
           FontInfo="{x:Null}"
-          Size="648,NaN"
+          Size="648,56"
           Id="58001010-6603-4d22-be02-80236930ff11"
           TopLeft="452,67" />
       </GraphLayout>

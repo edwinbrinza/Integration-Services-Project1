@@ -12,8 +12,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Historize"
   DTS:PackageType="5"
-  DTS:VersionBuild="41"
-  DTS:VersionGUID="{1E60CBA6-109E-41C4-8CD6-4C8C2CBEEF0E}">
+  DTS:VersionBuild="90"
+  DTS:VersionGUID="{24842605-F573-4826-A574-49A793D254BC}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -25,6 +25,16 @@
       <DTS:ObjectData>
         <DTS:ConnectionManager
           DTS:ConnectionString="Data Source=ED-LAPTOP\SQLEXPRESS;Initial Catalog=ConfigDB;Provider=SQLNCLI11.1;Integrated Security=SSPI;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Data Store]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{8E804A0A-74DC-4B6B-B124-C0D594CD724F}"
+      DTS:ObjectName="Data Store">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=ED-LAPTOP\SQLEXPRESS;Initial Catalog=DataStore;Provider=SQLNCLI11.1;Integrated Security=SSPI;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
@@ -66,7 +76,8 @@
       <DTS:PropertyExpression
         DTS:Name="ConnectionString">@[User::SourceConnString]</DTS:PropertyExpression>
       <DTS:ObjectData>
-        <DTS:ConnectionManager />
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=ED-LAPTOP\SQLEXPRESS;Initial Catalog=Source_1_DB;Provider=SQLNCLI11.1;Integrated Security=SSPI;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
@@ -111,7 +122,13 @@
       DTS:ConfigurationType="7"
       DTS:CreationName=""
       DTS:DTSID="{C2457F6D-1A87-4618-B8E2-7726A79FFADC}"
-      DTS:ObjectName="Configuration 1" />
+      DTS:ObjectName="Configuration - Source2 DB" />
+    <DTS:Configuration
+      DTS:ConfigurationString="&quot;Config DB&quot;;&quot;[dbo].[SSISConfigurations]&quot;;&quot;DataStore&quot;;"
+      DTS:ConfigurationType="7"
+      DTS:CreationName=""
+      DTS:DTSID="{6A0B0AD4-010A-4EC1-8D89-98B1F0333223}"
+      DTS:ObjectName="Configuration - DataStore" />
   </DTS:Configurations>
   <DTS:LogProviders>
     <DTS:LogProvider
@@ -156,6 +173,24 @@
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
+      DTS:DTSID="{5BD72805-EE30-472B-BA90-EAD5E5B98AD8}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="DELTA_COMP_CFG">
+      <DTS:VariableValue
+        DTS:DataSubType="ManagedSerializable"
+        DTS:DataType="13">
+        <SOAP-ENV:Envelope xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+          <SOAP-ENV:Body>
+            <xsd:anyType
+              id="ref-1"></xsd:anyType>
+          </SOAP-ENV:Body>
+        </SOAP-ENV:Envelope>
+      </DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
       DTS:DTSID="{C83C0EFD-4802-4918-839B-2A5813F47432}"
       DTS:IncludeInDebugDump="2345"
       DTS:Namespace="User"
@@ -184,6 +219,71 @@
       DTS:ObjectName="DestinationTableName">
       <DTS:VariableValue
         DTS:DataType="8">.</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{9E513ABC-2A46-47EE-AB6E-3D421E3A2C2A}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;SELECT * FROM &quot; + @[User::DestinationTableName] + &quot; WHERE VALID_FLAG=1 ORDER BY &quot; +  @[User::SortColumns]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="DestinationTableName_CurrentVersion">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT * FROM . WHERE VALID_FLAG=1 ORDER BY </DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{7B54B3A8-80FD-41D8-A40C-95FC9E8E0515}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::DestinationTableName]+&quot;_D&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="DestinationTableName_DELETE">
+      <DTS:VariableValue
+        DTS:DataType="8">._D</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{F3B98317-ECA2-420F-ACAD-42C7F7183985}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::DestinationTableName]+&quot;_I&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="DestinationTableName_INSERT">
+      <DTS:VariableValue
+        DTS:DataType="8">._I</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{302D2FCC-018B-4874-9658-3FFEC792C0F9}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;SELECT * FROM &quot; + @[User::DestinationTableName] + &quot; WHERE EXEC_GUID= '&quot; + @[User::EXEC_GUID_TO_LOAD] + &quot;' AND VALID_FROM = '&quot; + (DT_WSTR, 4) YEAR(@[User::VALID_FROM]) + &quot;-&quot;+ RIGHT(&quot;0&quot;+(DT_WSTR, 2)MONTH(@[User::VALID_FROM]),2) + &quot;-&quot;+ RIGHT(&quot;0&quot;+(DT_WSTR, 2)DAY(@[User::VALID_FROM]),2) + &quot;' ORDER BY &quot; +  @[User::SortColumns]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="DestinationTableName_Sorted">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT * FROM . WHERE EXEC_GUID= '' AND VALID_FROM = '2017-03-28' ORDER BY </DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{B2CFF0D2-D65F-46AA-B8CB-5E3E4F35B514}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::DestinationTableName]+&quot;_U&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="DestinationTableName_UPDATE">
+      <DTS:VariableValue
+        DTS:DataType="8">._U</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{5EB63132-724F-42CF-9903-F681AC5DD212}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="EXEC_GUID_TO_LOAD">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -230,7 +330,7 @@
       DTS:Namespace="User"
       DTS:ObjectName="LOAD_TIME">
       <DTS:VariableValue
-        DTS:DataType="7">3/27/2017 9:31:11 PM</DTS:VariableValue>
+        DTS:DataType="7">3/28/2017 11:55:31 PM</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -249,8 +349,7 @@
       DTS:Namespace="User"
       DTS:ObjectName="SourceConnString">
       <DTS:VariableValue
-        DTS:DataType="8"
-        xml:space="preserve"></DTS:VariableValue>
+        DTS:DataType="8">Data Source=ED-LAPTOP\SQLEXPRESS;Initial Catalog=Source_1_DB;Provider=SQLNCLI11.1;Integrated Security=SSPI;</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -269,7 +368,7 @@
       DTS:Namespace="User"
       DTS:ObjectName="SourceSystemID">
       <DTS:VariableValue
-        DTS:DataType="3">2</DTS:VariableValue>
+        DTS:DataType="3">1</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -294,13 +393,73 @@
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
+      DTS:DTSID="{E009CF38-250E-43B8-95FA-F00B9DE4DD5D}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="STAGED_DATES_TO_LOAD">
+      <DTS:VariableValue
+        DTS:DataSubType="ManagedSerializable"
+        DTS:DataType="13">
+        <SOAP-ENV:Envelope xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+          <SOAP-ENV:Body>
+            <xsd:anyType
+              id="ref-1"></xsd:anyType>
+          </SOAP-ENV:Body>
+        </SOAP-ENV:Envelope>
+      </DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A7B37335-5745-415E-BE8C-CC64D0D09841}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;update t set UPDATE_TIME=GETDATE(), VALID_TO=s.VALID_FROM,VALID_FLAG=0 &quot; +  &quot;\r\n&quot; + &quot;from &quot; +  @[User::DestinationTableName] + &quot; t inner join &quot; +  @[User::DestinationTableName_UPDATE] + &quot; s on t.DS_SK=s.DS_SK&quot; + &quot;\r\n&quot; + &#xA;&quot;update t set UPDATE_TIME=GETDATE(),VALID_TO='&quot; + (DT_WSTR, 20) (DT_DBTIMESTAMP) @[User::VALID_FROM] + &quot;',VALID_FLAG=0 &quot; +  &quot;\r\n&quot; + &quot;from &quot; +  @[User::DestinationTableName] + &quot; t inner join &quot; +  @[User::DestinationTableName_DELETE] + &quot; s on t.DS_SK=s.DS_SK&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="UpdateSql">
+      <DTS:VariableValue
+        DTS:DataType="8">update t set UPDATE_TIME=GETDATE(), VALID_TO=s.VALID_FROM,VALID_FLAG=0 
+from . t inner join ._U s on t.DS_SK=s.DS_SK
+update t set UPDATE_TIME=GETDATE(),VALID_TO='2017-03-28 18:19:48',VALID_FLAG=0 
+from . t inner join ._D s on t.DS_SK=s.DS_SK</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{874754E9-40A9-4D03-92D6-3208107DC1EA}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="VALID_FROM">
+      <DTS:VariableValue
+        DTS:DataType="7">3/28/2017 6:19:48 PM</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
       DTS:DTSID="{BECB2102-1071-4B1C-AC72-80441AA13076}"
       DTS:IncludeInDebugDump="2345"
       DTS:Namespace="User"
-      DTS:ObjectName="Variable">
+      DTS:ObjectName="VALID_FROM_CFG">
       <DTS:VariableValue
-        DTS:DataType="8"
-        xml:space="preserve"></DTS:VariableValue>
+        DTS:DataSubType="ManagedSerializable"
+        DTS:DataType="13">
+        <SOAP-ENV:Envelope xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+          <SOAP-ENV:Body>
+            <xsd:anyType
+              id="ref-1"></xsd:anyType>
+          </SOAP-ENV:Body>
+        </SOAP-ENV:Envelope>
+      </DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{C4FB3FB8-179D-4EA3-B440-00E6BB4BD888}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="(DT_DBTIMESTAMP) (DT_DATE)&quot;9999-12-31&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="VALID_TO">
+      <DTS:VariableValue
+        DTS:DataType="7">12/31/9999</DTS:VariableValue>
     </DTS:Variable>
   </DTS:Variables>
   <DTS:LoggingOptions
@@ -321,7 +480,7 @@
       DTS:LocaleID="-1"
       DTS:ObjectName="Execute SQL Task -  Technical and Audit Columns"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="0">
+      DTS:ThreadHint="2">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
@@ -343,7 +502,7 @@
       DTS:LocaleID="-1"
       DTS:ObjectName="Execute SQL Task - Get connection string for source system ID"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="1">
+      DTS:ThreadHint="0">
       <DTS:Variables />
       <DTS:PropertyExpression
         DTS:Name="SqlStatementSource">"SELECT ConfiguredValue FROM dbo.SSISConfigurations c
@@ -352,7 +511,7 @@ WHERE s.SourceSystemID=" +  (DT_WSTR, 10) @[User::SourceSystemID]</DTS:PropertyE
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{4FB21FE4-6D5A-4986-BF46-FB24AFBE17AA}"
-          SQLTask:SqlStatementSource="SELECT ConfiguredValue FROM dbo.SSISConfigurations c&#xA;INNER JOIN dbo.SourceSystem s on c.ConfigurationFilter=s.ConfigurationFilter&#xA;WHERE s.SourceSystemID=2"
+          SQLTask:SqlStatementSource="SELECT ConfiguredValue FROM dbo.SSISConfigurations c&#xA;INNER JOIN dbo.SourceSystem s on c.ConfigurationFilter=s.ConfigurationFilter&#xA;WHERE s.SourceSystemID=1"
           SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
           <SQLTask:ResultBinding
             SQLTask:ResultName="0"
@@ -369,14 +528,14 @@ WHERE s.SourceSystemID=" +  (DT_WSTR, 10) @[User::SourceSystemID]</DTS:PropertyE
       DTS:LocaleID="-1"
       DTS:ObjectName="Execute SQL Task - Get Table IDs"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="2">
+      DTS:ThreadHint="1">
       <DTS:Variables />
       <DTS:PropertyExpression
         DTS:Name="SqlStatementSource">"SELECT SourceTableID AS ID FROM dbo.SourceTable WHERE Enabled=1 AND SourceSystemID=" + (DT_WSTR, 10) @[User::SourceSystemID] + " GROUP BY SourceTableID ORDER BY SourceTableID"</DTS:PropertyExpression>
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{4FB21FE4-6D5A-4986-BF46-FB24AFBE17AA}"
-          SQLTask:SqlStatementSource="SELECT SourceTableID AS ID FROM dbo.SourceTable WHERE Enabled=1 AND SourceSystemID=2 GROUP BY SourceTableID ORDER BY SourceTableID"
+          SQLTask:SqlStatementSource="SELECT SourceTableID AS ID FROM dbo.SourceTable WHERE Enabled=1 AND SourceSystemID=1 GROUP BY SourceTableID ORDER BY SourceTableID"
           SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
           <SQLTask:ResultBinding
             SQLTask:ResultName="0"
@@ -405,444 +564,168 @@ WHERE s.SourceSystemID=" +  (DT_WSTR, 10) @[User::SourceSystemID]</DTS:PropertyE
       <DTS:Variables />
       <DTS:Executables>
         <DTS:Executable
-          DTS:refId="Package\Foreach Loop - Load tables\Data Flow Task Plus - Load table"
-          DTS:CreationName="CozyRoc.Pipeline"
-          DTS:DelayValidation="True"
-          DTS:Description="Data Flow Task Plus"
-          DTS:DTSID="{E9CD5FDD-0AD1-4A2B-8DD5-B2317DC7C00E}"
-          DTS:ExecutableType="CozyRoc.Pipeline"
+          DTS:refId="Package\Foreach Loop - Load tables\Execute SQL Task - Get business dates and exec guids to load in DS"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{5266BA0E-D75C-4792-8B6C-8E4F3BD35D16}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
-          DTS:ObjectName="Data Flow Task Plus - Load table"
-          DTS:TaskContact="Data Flow Task Plus;CozyRoc LLC; SSIS+; © 2006-2016 COZYROC LLC; All Rights Reserved; http://www.cozyroc.com/;0">
+          DTS:ObjectName="Execute SQL Task - Get business dates and exec guids to load in DS"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:ObjectData>
-            <pipeline
-              version="1">
-              <components>
-                <component
-                  id="1"
-                  name="OLE DB Source"
-                  componentClassID="Microsoft.OLEDBSource"
-                  description="OLE DB Source"
-                  usesDispositions="true"
-                  validateExternalMetadata="False"
-                  version="7"
-                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7">
-                  <properties>
-                    <property
-                      id="2"
-                      name="CommandTimeout"
-                      dataType="System.Int32"
-                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out.">0</property>
-                    <property
-                      id="3"
-                      name="OpenRowset"
-                      dataType="System.String"
-                      description="Specifies the name of the database object used to open a rowset."></property>
-                    <property
-                      id="4"
-                      name="OpenRowsetVariable"
-                      dataType="System.String"
-                      description="Specifies the variable that contains the name of the database object used to open a rowset.">User::SourceTableName</property>
-                    <property
-                      id="5"
-                      name="SqlCommand"
-                      dataType="System.String"
-                      description="The SQL command to be executed."
-                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
-                    <property
-                      id="6"
-                      name="SqlCommandVariable"
-                      dataType="System.String"
-                      description="The variable that contains the SQL command to be executed."></property>
-                    <property
-                      id="7"
-                      name="DefaultCodePage"
-                      dataType="System.Int32"
-                      description="Specifies the column code page to use when code page information is unavailable from the data source.">1252</property>
-                    <property
-                      id="8"
-                      name="AlwaysUseDefaultCodePage"
-                      dataType="System.Boolean"
-                      description="Forces the use of the DefaultCodePage property value when describing character data.">false</property>
-                    <property
-                      id="9"
-                      name="AccessMode"
-                      dataType="System.Int32"
-                      description="Specifies the mode used to access the database."
-                      typeConverter="AccessMode">1</property>
-                    <property
-                      id="15"
-                      name="ParameterMapping"
-                      dataType="System.String"
-                      description="The mappings between the parameters in the SQL command and variables."></property>
-                  </properties>
-                  <connections>
-                    <connection
-                      id="10"
-                      name="OleDbConnection"
-                      description="The OLE DB runtime connection used to access the database."
-                      connectionManagerID="{0B45B8DC-C472-4024-A26A-6AC1A6CC8BE9}" />
-                  </connections>
-                  <outputs>
-                    <output
-                      id="11"
-                      name="OLE DB Source Output">
-                      <outputColumns>
-                        <outputColumn
-                          id="42"
-                          name="THUNK_COLUMN"
-                          lineageId="42"
-                          dataType="bool"
-                          errorOrTruncationOperation="Conversion"
-                          errorRowDisposition="FailComponent"
-                          truncationRowDisposition="FailComponent"
-                          externalMetadataColumnId="41" />
-                      </outputColumns>
-                      <externalMetadataColumns
-                        isUsed="True">
-                        <externalMetadataColumn
-                          id="41"
-                          name="THUNK_COLUMN"
-                          dataType="bool" />
-                      </externalMetadataColumns>
-                    </output>
-                    <output
-                      id="12"
-                      name="OLE DB Source Error Output"
-                      isErrorOut="true">
-                      <outputColumns>
-                        <outputColumn
-                          id="13"
-                          name="ErrorCode"
-                          lineageId="13"
-                          dataType="i4"
-                          specialFlags="1" />
-                        <outputColumn
-                          id="14"
-                          name="ErrorColumn"
-                          lineageId="14"
-                          dataType="i4"
-                          specialFlags="2" />
-                        <outputColumn
-                          id="43"
-                          name="THUNK_COLUMN"
-                          lineageId="43"
-                          dataType="bool" />
-                      </outputColumns>
-                      <externalMetadataColumns />
-                    </output>
-                  </outputs>
-                </component>
-                <component
-                  id="16"
-                  name="OLE DB Destination"
-                  componentClassID="Microsoft.OLEDBDestination"
-                  description="OLE DB Destination"
-                  usesDispositions="true"
-                  validateExternalMetadata="False"
-                  version="4"
-                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4">
-                  <properties>
-                    <property
-                      id="17"
-                      name="CommandTimeout"
-                      dataType="System.Int32"
-                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out.">0</property>
-                    <property
-                      id="18"
-                      name="OpenRowset"
-                      dataType="System.String"
-                      description="Specifies the name of the database object used to open a rowset."></property>
-                    <property
-                      id="19"
-                      name="OpenRowsetVariable"
-                      dataType="System.String"
-                      description="Specifies the variable that contains the name of the database object used to open a rowset.">User::DestinationTableName</property>
-                    <property
-                      id="20"
-                      name="SqlCommand"
-                      dataType="System.String"
-                      description="The SQL command to be executed."
-                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
-                    <property
-                      id="21"
-                      name="DefaultCodePage"
-                      dataType="System.Int32"
-                      description="Specifies the column code page to use when code page information is unavailable from the data source.">1252</property>
-                    <property
-                      id="22"
-                      name="AlwaysUseDefaultCodePage"
-                      dataType="System.Boolean"
-                      description="Forces the use of the DefaultCodePage property value when describing character data.">false</property>
-                    <property
-                      id="23"
-                      name="AccessMode"
-                      dataType="System.Int32"
-                      description="Specifies the mode used to access the database."
-                      typeConverter="AccessMode">4</property>
-                    <property
-                      id="25"
-                      name="FastLoadKeepIdentity"
-                      dataType="System.Boolean"
-                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on.">false</property>
-                    <property
-                      id="26"
-                      name="FastLoadKeepNulls"
-                      dataType="System.Boolean"
-                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on.">false</property>
-                    <property
-                      id="27"
-                      name="FastLoadOptions"
-                      dataType="System.String"
-                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."></property>
-                    <property
-                      id="28"
-                      name="FastLoadMaxInsertCommitSize"
-                      dataType="System.Int32"
-                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on.">2147483647</property>
-                  </properties>
-                  <connections>
-                    <connection
-                      id="24"
-                      name="OleDbConnection"
-                      description="The OLE DB runtime connection used to access the database."
-                      connectionManagerID="{9131DD66-456E-420E-86B1-8B1BD52F1AA4}" />
-                  </connections>
-                  <inputs>
-                    <input
-                      id="29"
-                      name="OLE DB Destination Input"
-                      hasSideEffects="true"
-                      errorOrTruncationOperation="Insert"
-                      errorRowDisposition="FailComponent">
-                      <inputColumns>
-                        <inputColumn
-                          id="45"
-                          lineageId="42"
-                          externalMetadataColumnId="44"
-                          cachedName="THUNK_COLUMN"
-                          cachedDataType="bool" />
-                      </inputColumns>
-                      <externalMetadataColumns
-                        isUsed="True">
-                        <externalMetadataColumn
-                          id="44"
-                          name="THUNK_COLUMN"
-                          dataType="bool" />
-                      </externalMetadataColumns>
-                    </input>
-                  </inputs>
-                  <outputs>
-                    <output
-                      id="30"
-                      name="OLE DB Destination Error Output"
-                      exclusionGroup="1"
-                      synchronousInputId="29"
-                      isErrorOut="true">
-                      <outputColumns>
-                        <outputColumn
-                          id="31"
-                          name="ErrorCode"
-                          lineageId="31"
-                          dataType="i4"
-                          specialFlags="1" />
-                        <outputColumn
-                          id="32"
-                          name="ErrorColumn"
-                          lineageId="32"
-                          dataType="i4"
-                          specialFlags="2" />
-                      </outputColumns>
-                      <externalMetadataColumns />
-                    </output>
-                  </outputs>
-                </component>
-                <component
-                  id="33"
-                  name="Derived Column"
-                  componentClassID="Microsoft.DerivedColumn"
-                  description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
-                  usesDispositions="true"
-                  validateExternalMetadata="False"
-                  contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0">
-                  <inputs>
-                    <input
-                      id="34"
-                      name="Derived Column Input"
-                      description="Input to the Derived Column Transformation">
-                      <externalMetadataColumns />
-                    </input>
-                  </inputs>
-                  <outputs>
-                    <output
-                      id="35"
-                      name="Derived Column Output"
-                      description="Default Output of the Derived Column Transformation"
-                      exclusionGroup="1"
-                      synchronousInputId="34">
-                      <externalMetadataColumns />
-                    </output>
-                    <output
-                      id="36"
-                      name="Derived Column Error Output"
-                      description="Error Output of the Derived Column Transformation"
-                      exclusionGroup="1"
-                      synchronousInputId="34"
-                      isErrorOut="true">
-                      <outputColumns>
-                        <outputColumn
-                          id="37"
-                          name="ErrorCode"
-                          lineageId="37"
-                          dataType="i4"
-                          specialFlags="1" />
-                        <outputColumn
-                          id="38"
-                          name="ErrorColumn"
-                          lineageId="38"
-                          dataType="i4"
-                          specialFlags="2" />
-                      </outputColumns>
-                      <externalMetadataColumns />
-                    </output>
-                  </outputs>
-                </component>
-              </components>
-              <paths>
-                <path
-                  id="39"
-                  name="OLE DB Source Output"
-                  startId="11"
-                  endId="34" />
-                <path
-                  id="40"
-                  name="Derived Column Output"
-                  startId="35"
-                  endId="29" />
-              </paths>
-              <ScriptProject
-                Name="ST_5088b1443464418bb10d090072c10f51"
-                VSTAMajorVersion="14"
-                VSTAMinorVersion="0"
-                Language="CSharp" />
-              <ArrayOfDynamicComponentProperties xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-                <DynamicComponentProperties>
-                  <item>
-                    <key>
-                      <string>ID</string>
-                    </key>
-                    <value>
-                      <anyType
-                        xsi:type="xsd:int">16</anyType>
-                    </value>
-                  </item>
-                  <item>
-                    <key>
-                      <string>IsMappingVariable</string>
-                    </key>
-                    <value>
-                      <anyType
-                        xsi:type="xsd:boolean">true</anyType>
-                    </value>
-                  </item>
-                  <item>
-                    <key>
-                      <string>Mapping</string>
-                    </key>
-                    <value>
-                      <anyType
-                        xsi:type="xsd:string">User::ColumnName</anyType>
-                    </value>
-                  </item>
-                  <item>
-                    <key>
-                      <string>MandatoryMapping</string>
-                    </key>
-                    <value>
-                      <anyType
-                        xsi:type="xsd:int">2</anyType>
-                    </value>
-                  </item>
-                  <item>
-                    <key>
-                      <string>MandatoryMappingList</string>
-                    </key>
-                    <value>
-                      <anyType
-                        xsi:type="xsd:string"></anyType>
-                    </value>
-                  </item>
-                </DynamicComponentProperties>
-                <DynamicComponentProperties>
-                  <item>
-                    <key>
-                      <string>ID</string>
-                    </key>
-                    <value>
-                      <anyType
-                        xsi:type="xsd:int">1</anyType>
-                    </value>
-                  </item>
-                  <item>
-                    <key>
-                      <string>FilterType</string>
-                    </key>
-                    <value>
-                      <anyType
-                        xsi:type="xsd:int">0</anyType>
-                    </value>
-                  </item>
-                  <item>
-                    <key>
-                      <string>Filter</string>
-                    </key>
-                    <value>
-                      <anyType
-                        xsi:type="xsd:string"></anyType>
-                    </value>
-                  </item>
-                  <item>
-                    <key>
-                      <string>ErrorRowDisposition</string>
-                    </key>
-                    <value>
-                      <anyType
-                        xsi:type="xsd:int">4</anyType>
-                    </value>
-                  </item>
-                  <item>
-                    <key>
-                      <string>TruncationRowDisposition</string>
-                    </key>
-                    <value>
-                      <anyType
-                        xsi:type="xsd:int">4</anyType>
-                    </value>
-                  </item>
-                </DynamicComponentProperties>
-                <DynamicComponentProperties>
-                  <item>
-                    <key>
-                      <string>ID</string>
-                    </key>
-                    <value>
-                      <anyType
-                        xsi:type="xsd:int">33</anyType>
-                    </value>
-                  </item>
-                  <item>
-                    <key>
-                      <string>DerivedConfigurationVariable</string>
-                    </key>
-                    <value>
-                      <anyType
-                        xsi:type="xsd:string">User::LOAD_DATE_CFG</anyType>
-                    </value>
-                  </item>
-                </DynamicComponentProperties>
-              </ArrayOfDynamicComponentProperties>
-            </pipeline>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{9131DD66-456E-420E-86B1-8B1BD52F1AA4}"
+              SQLTask:SqlStatementSource="SELECT BUSINESS_DATE, LAST_EXEC_GUID&#xA;FROM [StageDB].[dbo].[TABLE_LOAD_AUDIT]&#xA;WHERE TABLE_SCHEMA=? AND TABLE_NAME=? AND LOAD_STATUS='STAGED'&#xA;GROUP BY BUSINESS_DATE, LAST_EXEC_GUID"
+              SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="0"
+                SQLTask:DtsVariableName="User::STAGED_DATES_TO_LOAD" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="User::DestinationSchema"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="129"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="1"
+                SQLTask:DtsVariableName="User::DestinationTable"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="129"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop - Load tables\Execute SQL Task - Get delta compare info"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{2E1D6093-DBA4-49E3-BD79-BE269D1135B0}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Execute SQL Task - Get delta compare info"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:PropertyExpression
+            DTS:Name="SqlStatementSource">"select 
+DestinationColumnName as InputColumn,
+coalesce(KeyOrder, 0) as KeyOrder,
+case 
+	when KeyOrder is null then 10 --the ID of the output
+	else 0
+end as UpdateID,
+CASE
+	when KeyOrder is not null then 0 --key column
+	else 1	--compare					
+end as [Option]
+from DestinationColumn
+where DestinationTableID="+   (DT_WSTR, 10) @[User::ID] + "\r\n" + 
+"UNION ALL
+select
+'LOAD_TIME' as InputColumn,
+0 as KeyOrder,
+10 as UpdateID,
+3 as [Option]
+UNION ALL
+select
+'DS_SK' as InputColumn,
+0 as KeyOrder,
+10 as UpdateID,
+2 as [Option]
+UNION ALL
+
+ select
+
+'VALID_FLAG' as InputColumn,
+
+0 as KeyOrder,
+
+10 as UpdateID,
+
+2 as [Option]
+UNION ALL
+
+select
+
+'VALID_FROM' as InputColumn,
+
+0 as KeyOrder,
+
+10 as UpdateID,
+
+3 as [Option]
+UNION ALL
+
+select
+
+ 'VALID_TO' as InputColumn,
+
+0 as KeyOrder,
+
+10 as UpdateID,
+
+3 as [Option] UNION ALL
+
+ select
+
+ 'DS_SK' as InputColumn,
+
+0 as KeyOrder,
+
+10 as UpdateID,
+
+2 as [Option]  UNION ALL
+
+ select
+
+ 'STG_SK' as InputColumn,
+
+0 as KeyOrder,
+
+10 as UpdateID,
+
+3 as [Option]UNION ALL
+
+ select
+
+ 'EXEC_GUID' as InputColumn,
+
+0 as KeyOrder,
+
+10 as UpdateID,
+
+3 as [Option] UNION ALL
+
+ select
+
+ 'INSERT_TIME' as InputColumn,
+
+0 as KeyOrder,
+
+10 as UpdateID,
+
+3 as [Option]  UNION ALL
+
+ select
+
+ 'UPDATE_TIME' as InputColumn,
+
+0 as KeyOrder,
+
+10 as UpdateID,
+
+3 as [Option]"</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{4FB21FE4-6D5A-4986-BF46-FB24AFBE17AA}"
+              SQLTask:SqlStatementSource="select &#xA;DestinationColumnName as InputColumn,&#xA;coalesce(KeyOrder, 0) as KeyOrder,&#xA;case &#xA;&#x9;when KeyOrder is null then 10 --the ID of the output&#xA;&#x9;else 0&#xA;end as UpdateID,&#xA;CASE&#xA;&#x9;when KeyOrder is not null then 0 --key column&#xA;&#x9;else 1&#x9;--compare&#x9;&#x9;&#x9;&#x9;&#x9;&#xA;end as [Option]&#xA;from DestinationColumn&#xA;where DestinationTableID=0&#xA;UNION ALL&#xA;select&#xA;'LOAD_TIME' as InputColumn,&#xA;0 as KeyOrder,&#xA;10 as UpdateID,&#xA;3 as [Option]&#xA;UNION ALL&#xA;select&#xA;'DS_SK' as InputColumn,&#xA;0 as KeyOrder,&#xA;10 as UpdateID,&#xA;2 as [Option]&#xA;UNION ALL&#xA;&#xA; select&#xA;&#xA;'VALID_FLAG' as InputColumn,&#xA;&#xA;0 as KeyOrder,&#xA;&#xA;10 as UpdateID,&#xA;&#xA;2 as [Option]&#xA;UNION ALL&#xA;&#xA;select&#xA;&#xA;'VALID_FROM' as InputColumn,&#xA;&#xA;0 as KeyOrder,&#xA;&#xA;10 as UpdateID,&#xA;&#xA;3 as [Option]&#xA;UNION ALL&#xA;&#xA;select&#xA;&#xA; 'VALID_TO' as InputColumn,&#xA;&#xA;0 as KeyOrder,&#xA;&#xA;10 as UpdateID,&#xA;&#xA;3 as [Option] UNION ALL&#xA;&#xA; select&#xA;&#xA; 'DS_SK' as InputColumn,&#xA;&#xA;0 as KeyOrder,&#xA;&#xA;10 as UpdateID,&#xA;&#xA;2 as [Option]  UNION ALL&#xA;&#xA; select&#xA;&#xA; 'STG_SK' as InputColumn,&#xA;&#xA;0 as KeyOrder,&#xA;&#xA;10 as UpdateID,&#xA;&#xA;3 as [Option]UNION ALL&#xA;&#xA; select&#xA;&#xA; 'EXEC_GUID' as InputColumn,&#xA;&#xA;0 as KeyOrder,&#xA;&#xA;10 as UpdateID,&#xA;&#xA;3 as [Option] UNION ALL&#xA;&#xA; select&#xA;&#xA; 'INSERT_TIME' as InputColumn,&#xA;&#xA;0 as KeyOrder,&#xA;&#xA;10 as UpdateID,&#xA;&#xA;3 as [Option]  UNION ALL&#xA;&#xA; select&#xA;&#xA; 'UPDATE_TIME' as InputColumn,&#xA;&#xA;0 as KeyOrder,&#xA;&#xA;10 as UpdateID,&#xA;&#xA;3 as [Option]"
+              SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="0"
+                SQLTask:DtsVariableName="User::DELTA_COMP_CFG" />
+            </SQLTask:SqlTaskData>
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
@@ -980,6 +863,2014 @@ SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableNam
             </SQLTask:SqlTaskData>
           </DTS:ObjectData>
         </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop - Load tables\Foreach Loop Container - Business dates to historize"
+          DTS:CreationName="STOCK:FOREACHLOOP"
+          DTS:Description="Foreach Loop Container"
+          DTS:DTSID="{853A5F87-D4BC-4E00-B8E0-A2A94D8ACE9F}"
+          DTS:ExecutableType="STOCK:FOREACHLOOP"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Foreach Loop Container - Business dates to historize">
+          <DTS:ForEachEnumerator
+            DTS:CreationName="Microsoft.ForEachADOEnumerator"
+            DTS:DTSID="{5A4A4AF9-6324-4946-87C0-A9670D8D7E4C}"
+            DTS:ObjectName="{5A4A4AF9-6324-4946-87C0-A9670D8D7E4C}">
+            <DTS:ObjectData>
+              <FEEADO
+                EnumType="EnumerateRowsInFirstTable"
+                VarName="User::STAGED_DATES_TO_LOAD" />
+            </DTS:ObjectData>
+          </DTS:ForEachEnumerator>
+          <DTS:Variables />
+          <DTS:Executables>
+            <DTS:Executable
+              DTS:refId="Package\Foreach Loop - Load tables\Foreach Loop Container - Business dates to historize\Data Flow Task Plus - Add inserts"
+              DTS:CreationName="CozyRoc.Pipeline"
+              DTS:Description="Data Flow Task Plus"
+              DTS:DTSID="{46C9ED19-B0E7-415F-82A2-CCFCDBE06A48}"
+              DTS:ExecutableType="CozyRoc.Pipeline"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="Data Flow Task Plus - Add inserts"
+              DTS:TaskContact="Data Flow Task Plus;CozyRoc LLC; SSIS+; © 2006-2016 COZYROC LLC; All Rights Reserved; http://www.cozyroc.com/;0">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <pipeline
+                  version="1">
+                  <components>
+                    <component
+                      id="1"
+                      name="OLE DB Source - New rows"
+                      componentClassID="Microsoft.OLEDBSource"
+                      description="OLE DB Source"
+                      usesDispositions="true"
+                      validateExternalMetadata="False"
+                      version="7"
+                      contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7">
+                      <properties>
+                        <property
+                          id="2"
+                          name="CommandTimeout"
+                          dataType="System.Int32"
+                          description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out.">0</property>
+                        <property
+                          id="3"
+                          name="OpenRowset"
+                          dataType="System.String"
+                          description="Specifies the name of the database object used to open a rowset."></property>
+                        <property
+                          id="4"
+                          name="OpenRowsetVariable"
+                          dataType="System.String"
+                          description="Specifies the variable that contains the name of the database object used to open a rowset.">User::DestinationTableName_INSERT</property>
+                        <property
+                          id="5"
+                          name="SqlCommand"
+                          dataType="System.String"
+                          description="The SQL command to be executed."
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                        <property
+                          id="6"
+                          name="SqlCommandVariable"
+                          dataType="System.String"
+                          description="The variable that contains the SQL command to be executed.">User::DestinationTableName_Sorted</property>
+                        <property
+                          id="7"
+                          name="DefaultCodePage"
+                          dataType="System.Int32"
+                          description="Specifies the column code page to use when code page information is unavailable from the data source.">1252</property>
+                        <property
+                          id="8"
+                          name="AlwaysUseDefaultCodePage"
+                          dataType="System.Boolean"
+                          description="Forces the use of the DefaultCodePage property value when describing character data.">false</property>
+                        <property
+                          id="9"
+                          name="AccessMode"
+                          dataType="System.Int32"
+                          description="Specifies the mode used to access the database."
+                          typeConverter="AccessMode">1</property>
+                        <property
+                          id="10"
+                          name="ParameterMapping"
+                          dataType="System.String"
+                          description="The mappings between the parameters in the SQL command and variables."></property>
+                      </properties>
+                      <connections>
+                        <connection
+                          id="11"
+                          name="OleDbConnection"
+                          description="The OLE DB runtime connection used to access the database."
+                          connectionManagerID="{8E804A0A-74DC-4B6B-B124-C0D594CD724F}" />
+                      </connections>
+                      <outputs>
+                        <output
+                          id="12"
+                          name="OLE DB Source Output">
+                          <outputColumns>
+                            <outputColumn
+                              id="13"
+                              name="THUNK_COLUMN"
+                              lineageId="13"
+                              dataType="bool"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              truncationRowDisposition="FailComponent"
+                              externalMetadataColumnId="14" />
+                          </outputColumns>
+                          <externalMetadataColumns
+                            isUsed="True">
+                            <externalMetadataColumn
+                              id="14"
+                              name="THUNK_COLUMN"
+                              dataType="bool" />
+                          </externalMetadataColumns>
+                        </output>
+                        <output
+                          id="15"
+                          name="OLE DB Source Error Output"
+                          isErrorOut="true">
+                          <outputColumns>
+                            <outputColumn
+                              id="16"
+                              name="ErrorCode"
+                              lineageId="16"
+                              dataType="i4"
+                              specialFlags="1" />
+                            <outputColumn
+                              id="17"
+                              name="ErrorColumn"
+                              lineageId="17"
+                              dataType="i4"
+                              specialFlags="2" />
+                            <outputColumn
+                              id="18"
+                              name="THUNK_COLUMN"
+                              lineageId="18"
+                              dataType="bool" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                    <component
+                      id="19"
+                      name="OLE DB Source - New versions for updates"
+                      componentClassID="Microsoft.OLEDBSource"
+                      description="OLE DB Source"
+                      usesDispositions="true"
+                      validateExternalMetadata="False"
+                      version="7"
+                      contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7">
+                      <properties>
+                        <property
+                          id="20"
+                          name="CommandTimeout"
+                          dataType="System.Int32"
+                          description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out.">0</property>
+                        <property
+                          id="21"
+                          name="OpenRowset"
+                          dataType="System.String"
+                          description="Specifies the name of the database object used to open a rowset."></property>
+                        <property
+                          id="22"
+                          name="OpenRowsetVariable"
+                          dataType="System.String"
+                          description="Specifies the variable that contains the name of the database object used to open a rowset.">User::DestinationTableName_UPDATE</property>
+                        <property
+                          id="23"
+                          name="SqlCommand"
+                          dataType="System.String"
+                          description="The SQL command to be executed."
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                        <property
+                          id="24"
+                          name="SqlCommandVariable"
+                          dataType="System.String"
+                          description="The variable that contains the SQL command to be executed.">User::DestinationTableName_Sorted</property>
+                        <property
+                          id="25"
+                          name="DefaultCodePage"
+                          dataType="System.Int32"
+                          description="Specifies the column code page to use when code page information is unavailable from the data source.">1252</property>
+                        <property
+                          id="26"
+                          name="AlwaysUseDefaultCodePage"
+                          dataType="System.Boolean"
+                          description="Forces the use of the DefaultCodePage property value when describing character data.">false</property>
+                        <property
+                          id="27"
+                          name="AccessMode"
+                          dataType="System.Int32"
+                          description="Specifies the mode used to access the database."
+                          typeConverter="AccessMode">1</property>
+                        <property
+                          id="28"
+                          name="ParameterMapping"
+                          dataType="System.String"
+                          description="The mappings between the parameters in the SQL command and variables."></property>
+                      </properties>
+                      <connections>
+                        <connection
+                          id="29"
+                          name="OleDbConnection"
+                          description="The OLE DB runtime connection used to access the database."
+                          connectionManagerID="{8E804A0A-74DC-4B6B-B124-C0D594CD724F}" />
+                      </connections>
+                      <outputs>
+                        <output
+                          id="30"
+                          name="OLE DB Source Output">
+                          <outputColumns>
+                            <outputColumn
+                              id="31"
+                              name="THUNK_COLUMN"
+                              lineageId="31"
+                              dataType="bool"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              truncationRowDisposition="FailComponent"
+                              externalMetadataColumnId="32" />
+                          </outputColumns>
+                          <externalMetadataColumns
+                            isUsed="True">
+                            <externalMetadataColumn
+                              id="32"
+                              name="THUNK_COLUMN"
+                              dataType="bool" />
+                          </externalMetadataColumns>
+                        </output>
+                        <output
+                          id="33"
+                          name="OLE DB Source Error Output"
+                          isErrorOut="true">
+                          <outputColumns>
+                            <outputColumn
+                              id="34"
+                              name="ErrorCode"
+                              lineageId="34"
+                              dataType="i4"
+                              specialFlags="1" />
+                            <outputColumn
+                              id="35"
+                              name="ErrorColumn"
+                              lineageId="35"
+                              dataType="i4"
+                              specialFlags="2" />
+                            <outputColumn
+                              id="36"
+                              name="THUNK_COLUMN"
+                              lineageId="36"
+                              dataType="bool" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                    <component
+                      id="37"
+                      name="Union All"
+                      componentClassID="Microsoft.UnionAll"
+                      description="Combines rows from multiple data flows without sorting. For example, add rows back to a data flow after correction of errors. If sorting is important, we recommend using the Merge transformation."
+                      validateExternalMetadata="False"
+                      version="1"
+                      contactInfo="Union All;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1">
+                      <inputs>
+                        <input
+                          id="38"
+                          name="Union All Input 1">
+                          <inputColumns>
+                            <inputColumn
+                              id="41"
+                              lineageId="13"
+                              cachedName="THUNK_COLUMN"
+                              cachedDataType="bool">
+                              <properties>
+                                <property
+                                  id="42"
+                                  name="OutputColumnLineageID"
+                                  dataType="System.Int32"
+                                  description="Output column lineage ID"
+                                  containsID="true">43</property>
+                              </properties>
+                            </inputColumn>
+                          </inputColumns>
+                          <externalMetadataColumns />
+                        </input>
+                        <input
+                          id="44"
+                          name="Union All Input 2"
+                          hasSideEffects="true">
+                          <inputColumns>
+                            <inputColumn
+                              id="46"
+                              lineageId="31"
+                              cachedName="THUNK_COLUMN"
+                              cachedDataType="bool">
+                              <properties>
+                                <property
+                                  id="47"
+                                  name="OutputColumnLineageID"
+                                  dataType="System.Int32"
+                                  description="Output column lineage ID"
+                                  containsID="true">43</property>
+                              </properties>
+                            </inputColumn>
+                          </inputColumns>
+                          <externalMetadataColumns />
+                        </input>
+                        <input
+                          id="48"
+                          name="Union All Input 3"
+                          hasSideEffects="true"
+                          dangling="true">
+                          <externalMetadataColumns />
+                        </input>
+                      </inputs>
+                      <outputs>
+                        <output
+                          id="39"
+                          name="Union All Output 1">
+                          <outputColumns>
+                            <outputColumn
+                              id="43"
+                              name="THUNK_COLUMN"
+                              lineageId="43"
+                              dataType="bool" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                    <component
+                      id="49"
+                      name="OLE DB Destination - DataStore table"
+                      componentClassID="Microsoft.OLEDBDestination"
+                      description="OLE DB Destination"
+                      usesDispositions="true"
+                      validateExternalMetadata="False"
+                      version="4"
+                      contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4">
+                      <properties>
+                        <property
+                          id="50"
+                          name="CommandTimeout"
+                          dataType="System.Int32"
+                          description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out.">0</property>
+                        <property
+                          id="51"
+                          name="OpenRowset"
+                          dataType="System.String"
+                          description="Specifies the name of the database object used to open a rowset."></property>
+                        <property
+                          id="52"
+                          name="OpenRowsetVariable"
+                          dataType="System.String"
+                          description="Specifies the variable that contains the name of the database object used to open a rowset.">User::DestinationTableName</property>
+                        <property
+                          id="53"
+                          name="SqlCommand"
+                          dataType="System.String"
+                          description="The SQL command to be executed."
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                        <property
+                          id="54"
+                          name="DefaultCodePage"
+                          dataType="System.Int32"
+                          description="Specifies the column code page to use when code page information is unavailable from the data source.">1252</property>
+                        <property
+                          id="55"
+                          name="AlwaysUseDefaultCodePage"
+                          dataType="System.Boolean"
+                          description="Forces the use of the DefaultCodePage property value when describing character data.">false</property>
+                        <property
+                          id="56"
+                          name="AccessMode"
+                          dataType="System.Int32"
+                          description="Specifies the mode used to access the database."
+                          typeConverter="AccessMode">4</property>
+                        <property
+                          id="57"
+                          name="FastLoadKeepIdentity"
+                          dataType="System.Boolean"
+                          description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on.">false</property>
+                        <property
+                          id="58"
+                          name="FastLoadKeepNulls"
+                          dataType="System.Boolean"
+                          description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on.">false</property>
+                        <property
+                          id="59"
+                          name="FastLoadOptions"
+                          dataType="System.String"
+                          description="Specifies options to be used with fast load.  Applies only if fast load is turned on.">TABLOCK,CHECK_CONSTRAINTS</property>
+                        <property
+                          id="60"
+                          name="FastLoadMaxInsertCommitSize"
+                          dataType="System.Int32"
+                          description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on.">2147483647</property>
+                      </properties>
+                      <connections>
+                        <connection
+                          id="61"
+                          name="OleDbConnection"
+                          description="The OLE DB runtime connection used to access the database."
+                          connectionManagerID="{8E804A0A-74DC-4B6B-B124-C0D594CD724F}" />
+                      </connections>
+                      <inputs>
+                        <input
+                          id="62"
+                          name="OLE DB Destination Input"
+                          hasSideEffects="true"
+                          errorOrTruncationOperation="Insert"
+                          errorRowDisposition="FailComponent">
+                          <inputColumns>
+                            <inputColumn
+                              id="63"
+                              lineageId="43"
+                              externalMetadataColumnId="64"
+                              cachedName="THUNK_COLUMN"
+                              cachedDataType="bool" />
+                          </inputColumns>
+                          <externalMetadataColumns
+                            isUsed="True">
+                            <externalMetadataColumn
+                              id="64"
+                              name="THUNK_COLUMN"
+                              dataType="bool" />
+                          </externalMetadataColumns>
+                        </input>
+                      </inputs>
+                      <outputs>
+                        <output
+                          id="65"
+                          name="OLE DB Destination Error Output"
+                          exclusionGroup="1"
+                          synchronousInputId="62"
+                          isErrorOut="true">
+                          <outputColumns>
+                            <outputColumn
+                              id="66"
+                              name="ErrorCode"
+                              lineageId="66"
+                              dataType="i4"
+                              specialFlags="1" />
+                            <outputColumn
+                              id="67"
+                              name="ErrorColumn"
+                              lineageId="67"
+                              dataType="i4"
+                              specialFlags="2" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                  </components>
+                  <paths>
+                    <path
+                      id="40"
+                      name="OLE DB Source Output"
+                      startId="12"
+                      endId="38" />
+                    <path
+                      id="45"
+                      name="OLE DB Source Output"
+                      startId="30"
+                      endId="44" />
+                    <path
+                      id="68"
+                      name="Union All Output 1"
+                      startId="39"
+                      endId="62" />
+                  </paths>
+                  <ScriptProject
+                    Name="ST_6455762f23134f7fb985c564f025afc8"
+                    VSTAMajorVersion="14"
+                    VSTAMinorVersion="0"
+                    Language="CSharp" />
+                  <ArrayOfDynamicComponentProperties xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+                    <DynamicComponentProperties>
+                      <item>
+                        <key>
+                          <string>ID</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:int">49</anyType>
+                        </value>
+                      </item>
+                      <item>
+                        <key>
+                          <string>IsMappingVariable</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:boolean">false</anyType>
+                        </value>
+                      </item>
+                      <item>
+                        <key>
+                          <string>Mapping</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:string"></anyType>
+                        </value>
+                      </item>
+                      <item>
+                        <key>
+                          <string>MandatoryMapping</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:int">2</anyType>
+                        </value>
+                      </item>
+                      <item>
+                        <key>
+                          <string>MandatoryMappingList</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:string"></anyType>
+                        </value>
+                      </item>
+                    </DynamicComponentProperties>
+                    <DynamicComponentProperties>
+                      <item>
+                        <key>
+                          <string>ID</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:int">1</anyType>
+                        </value>
+                      </item>
+                      <item>
+                        <key>
+                          <string>FilterType</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:int">0</anyType>
+                        </value>
+                      </item>
+                      <item>
+                        <key>
+                          <string>Filter</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:string"></anyType>
+                        </value>
+                      </item>
+                      <item>
+                        <key>
+                          <string>ErrorRowDisposition</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:int">4</anyType>
+                        </value>
+                      </item>
+                      <item>
+                        <key>
+                          <string>TruncationRowDisposition</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:int">4</anyType>
+                        </value>
+                      </item>
+                    </DynamicComponentProperties>
+                    <DynamicComponentProperties>
+                      <item>
+                        <key>
+                          <string>ID</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:int">19</anyType>
+                        </value>
+                      </item>
+                      <item>
+                        <key>
+                          <string>FilterType</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:int">0</anyType>
+                        </value>
+                      </item>
+                      <item>
+                        <key>
+                          <string>Filter</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:string"></anyType>
+                        </value>
+                      </item>
+                      <item>
+                        <key>
+                          <string>ErrorRowDisposition</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:int">4</anyType>
+                        </value>
+                      </item>
+                      <item>
+                        <key>
+                          <string>TruncationRowDisposition</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:int">4</anyType>
+                        </value>
+                      </item>
+                    </DynamicComponentProperties>
+                    <DynamicComponentProperties>
+                      <item>
+                        <key>
+                          <string>ID</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:int">37</anyType>
+                        </value>
+                      </item>
+                    </DynamicComponentProperties>
+                  </ArrayOfDynamicComponentProperties>
+                </pipeline>
+              </DTS:ObjectData>
+            </DTS:Executable>
+            <DTS:Executable
+              DTS:refId="Package\Foreach Loop - Load tables\Foreach Loop Container - Business dates to historize\Data Flow Task Plus - Load table"
+              DTS:CreationName="CozyRoc.Pipeline"
+              DTS:DelayValidation="True"
+              DTS:Description="Data Flow Task Plus"
+              DTS:DTSID="{E9CD5FDD-0AD1-4A2B-8DD5-B2317DC7C00E}"
+              DTS:ExecutableType="CozyRoc.Pipeline"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="Data Flow Task Plus - Load table"
+              DTS:TaskContact="Data Flow Task Plus;CozyRoc LLC; SSIS+; © 2006-2016 COZYROC LLC; All Rights Reserved; http://www.cozyroc.com/;0">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <pipeline
+                  version="1">
+                  <components>
+                    <component
+                      id="1"
+                      name="OLE DB Source - Stage table"
+                      componentClassID="Microsoft.OLEDBSource"
+                      description="OLE DB Source"
+                      usesDispositions="true"
+                      validateExternalMetadata="False"
+                      version="7"
+                      contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7">
+                      <properties>
+                        <property
+                          id="2"
+                          name="CommandTimeout"
+                          dataType="System.Int32"
+                          description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out.">0</property>
+                        <property
+                          id="3"
+                          name="OpenRowset"
+                          dataType="System.String"
+                          description="Specifies the name of the database object used to open a rowset."></property>
+                        <property
+                          id="4"
+                          name="OpenRowsetVariable"
+                          dataType="System.String"
+                          description="Specifies the variable that contains the name of the database object used to open a rowset.">User::DestinationTableName_Sorted</property>
+                        <property
+                          id="5"
+                          name="SqlCommand"
+                          dataType="System.String"
+                          description="The SQL command to be executed."
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                        <property
+                          id="6"
+                          name="SqlCommandVariable"
+                          dataType="System.String"
+                          description="The variable that contains the SQL command to be executed.">User::DestinationTableName_Sorted</property>
+                        <property
+                          id="7"
+                          name="DefaultCodePage"
+                          dataType="System.Int32"
+                          description="Specifies the column code page to use when code page information is unavailable from the data source.">1252</property>
+                        <property
+                          id="8"
+                          name="AlwaysUseDefaultCodePage"
+                          dataType="System.Boolean"
+                          description="Forces the use of the DefaultCodePage property value when describing character data.">false</property>
+                        <property
+                          id="9"
+                          name="AccessMode"
+                          dataType="System.Int32"
+                          description="Specifies the mode used to access the database."
+                          typeConverter="AccessMode">3</property>
+                        <property
+                          id="15"
+                          name="ParameterMapping"
+                          dataType="System.String"
+                          description="The mappings between the parameters in the SQL command and variables."></property>
+                      </properties>
+                      <connections>
+                        <connection
+                          id="10"
+                          name="OleDbConnection"
+                          description="The OLE DB runtime connection used to access the database."
+                          connectionManagerID="{9131DD66-456E-420E-86B1-8B1BD52F1AA4}" />
+                      </connections>
+                      <outputs>
+                        <output
+                          id="11"
+                          name="OLE DB Source Output">
+                          <outputColumns>
+                            <outputColumn
+                              id="42"
+                              name="THUNK_COLUMN"
+                              lineageId="42"
+                              dataType="bool"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              truncationRowDisposition="FailComponent"
+                              externalMetadataColumnId="41" />
+                          </outputColumns>
+                          <externalMetadataColumns
+                            isUsed="True">
+                            <externalMetadataColumn
+                              id="41"
+                              name="THUNK_COLUMN"
+                              dataType="bool" />
+                          </externalMetadataColumns>
+                        </output>
+                        <output
+                          id="12"
+                          name="OLE DB Source Error Output"
+                          isErrorOut="true">
+                          <outputColumns>
+                            <outputColumn
+                              id="13"
+                              name="ErrorCode"
+                              lineageId="13"
+                              dataType="i4"
+                              specialFlags="1" />
+                            <outputColumn
+                              id="14"
+                              name="ErrorColumn"
+                              lineageId="14"
+                              dataType="i4"
+                              specialFlags="2" />
+                            <outputColumn
+                              id="43"
+                              name="THUNK_COLUMN"
+                              lineageId="43"
+                              dataType="bool" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                    <component
+                      id="16"
+                      name="OLE DB Destination - INSERTS"
+                      componentClassID="Microsoft.OLEDBDestination"
+                      description="OLE DB Destination"
+                      usesDispositions="true"
+                      validateExternalMetadata="False"
+                      version="4"
+                      contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4">
+                      <properties>
+                        <property
+                          id="17"
+                          name="CommandTimeout"
+                          dataType="System.Int32"
+                          description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out.">0</property>
+                        <property
+                          id="18"
+                          name="OpenRowset"
+                          dataType="System.String"
+                          description="Specifies the name of the database object used to open a rowset."></property>
+                        <property
+                          id="19"
+                          name="OpenRowsetVariable"
+                          dataType="System.String"
+                          description="Specifies the variable that contains the name of the database object used to open a rowset.">User::DestinationTableName_INSERT</property>
+                        <property
+                          id="20"
+                          name="SqlCommand"
+                          dataType="System.String"
+                          description="The SQL command to be executed."
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                        <property
+                          id="21"
+                          name="DefaultCodePage"
+                          dataType="System.Int32"
+                          description="Specifies the column code page to use when code page information is unavailable from the data source.">1252</property>
+                        <property
+                          id="22"
+                          name="AlwaysUseDefaultCodePage"
+                          dataType="System.Boolean"
+                          description="Forces the use of the DefaultCodePage property value when describing character data.">false</property>
+                        <property
+                          id="23"
+                          name="AccessMode"
+                          dataType="System.Int32"
+                          description="Specifies the mode used to access the database."
+                          typeConverter="AccessMode">4</property>
+                        <property
+                          id="25"
+                          name="FastLoadKeepIdentity"
+                          dataType="System.Boolean"
+                          description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on.">true</property>
+                        <property
+                          id="26"
+                          name="FastLoadKeepNulls"
+                          dataType="System.Boolean"
+                          description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on.">false</property>
+                        <property
+                          id="27"
+                          name="FastLoadOptions"
+                          dataType="System.String"
+                          description="Specifies options to be used with fast load.  Applies only if fast load is turned on.">TABLOCK,CHECK_CONSTRAINTS</property>
+                        <property
+                          id="28"
+                          name="FastLoadMaxInsertCommitSize"
+                          dataType="System.Int32"
+                          description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on.">2147483647</property>
+                      </properties>
+                      <connections>
+                        <connection
+                          id="24"
+                          name="OleDbConnection"
+                          description="The OLE DB runtime connection used to access the database."
+                          connectionManagerID="{8E804A0A-74DC-4B6B-B124-C0D594CD724F}" />
+                      </connections>
+                      <inputs>
+                        <input
+                          id="29"
+                          name="OLE DB Destination Input"
+                          hasSideEffects="true"
+                          errorOrTruncationOperation="Insert"
+                          errorRowDisposition="FailComponent">
+                          <inputColumns>
+                            <inputColumn
+                              id="45"
+                              lineageId="94"
+                              externalMetadataColumnId="44"
+                              cachedName="THUNK_COLUMN"
+                              cachedDataType="bool" />
+                          </inputColumns>
+                          <externalMetadataColumns
+                            isUsed="True">
+                            <externalMetadataColumn
+                              id="44"
+                              name="THUNK_COLUMN"
+                              dataType="bool" />
+                          </externalMetadataColumns>
+                        </input>
+                      </inputs>
+                      <outputs>
+                        <output
+                          id="30"
+                          name="OLE DB Destination Error Output"
+                          exclusionGroup="1"
+                          synchronousInputId="29"
+                          isErrorOut="true">
+                          <outputColumns>
+                            <outputColumn
+                              id="31"
+                              name="ErrorCode"
+                              lineageId="31"
+                              dataType="i4"
+                              specialFlags="1" />
+                            <outputColumn
+                              id="32"
+                              name="ErrorColumn"
+                              lineageId="32"
+                              dataType="i4"
+                              specialFlags="2" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                    <component
+                      id="33"
+                      name="Derived Column"
+                      componentClassID="Microsoft.DerivedColumn"
+                      description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+                      usesDispositions="true"
+                      validateExternalMetadata="False"
+                      contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0">
+                      <inputs>
+                        <input
+                          id="34"
+                          name="Derived Column Input"
+                          description="Input to the Derived Column Transformation">
+                          <externalMetadataColumns />
+                        </input>
+                      </inputs>
+                      <outputs>
+                        <output
+                          id="35"
+                          name="Derived Column Output"
+                          description="Default Output of the Derived Column Transformation"
+                          exclusionGroup="1"
+                          synchronousInputId="34">
+                          <externalMetadataColumns />
+                        </output>
+                        <output
+                          id="36"
+                          name="Derived Column Error Output"
+                          description="Error Output of the Derived Column Transformation"
+                          exclusionGroup="1"
+                          synchronousInputId="34"
+                          isErrorOut="true">
+                          <outputColumns>
+                            <outputColumn
+                              id="37"
+                              name="ErrorCode"
+                              lineageId="37"
+                              dataType="i4"
+                              specialFlags="1" />
+                            <outputColumn
+                              id="38"
+                              name="ErrorColumn"
+                              lineageId="38"
+                              dataType="i4"
+                              specialFlags="2" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                    <component
+                      id="46"
+                      name="OLE DB Source - DataStore table"
+                      componentClassID="Microsoft.OLEDBSource"
+                      description="OLE DB Source"
+                      usesDispositions="true"
+                      validateExternalMetadata="False"
+                      version="7"
+                      contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7">
+                      <properties>
+                        <property
+                          id="47"
+                          name="CommandTimeout"
+                          dataType="System.Int32"
+                          description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out.">0</property>
+                        <property
+                          id="48"
+                          name="OpenRowset"
+                          dataType="System.String"
+                          description="Specifies the name of the database object used to open a rowset."></property>
+                        <property
+                          id="49"
+                          name="OpenRowsetVariable"
+                          dataType="System.String"
+                          description="Specifies the variable that contains the name of the database object used to open a rowset.">User::DestinationTableName_CurrentVersion</property>
+                        <property
+                          id="50"
+                          name="SqlCommand"
+                          dataType="System.String"
+                          description="The SQL command to be executed."
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                        <property
+                          id="51"
+                          name="SqlCommandVariable"
+                          dataType="System.String"
+                          description="The variable that contains the SQL command to be executed.">User::DestinationTableName_CurrentVersion</property>
+                        <property
+                          id="52"
+                          name="DefaultCodePage"
+                          dataType="System.Int32"
+                          description="Specifies the column code page to use when code page information is unavailable from the data source.">1252</property>
+                        <property
+                          id="53"
+                          name="AlwaysUseDefaultCodePage"
+                          dataType="System.Boolean"
+                          description="Forces the use of the DefaultCodePage property value when describing character data.">false</property>
+                        <property
+                          id="54"
+                          name="AccessMode"
+                          dataType="System.Int32"
+                          description="Specifies the mode used to access the database."
+                          typeConverter="AccessMode">3</property>
+                        <property
+                          id="55"
+                          name="ParameterMapping"
+                          dataType="System.String"
+                          description="The mappings between the parameters in the SQL command and variables."></property>
+                      </properties>
+                      <connections>
+                        <connection
+                          id="56"
+                          name="OleDbConnection"
+                          description="The OLE DB runtime connection used to access the database."
+                          connectionManagerID="{8E804A0A-74DC-4B6B-B124-C0D594CD724F}" />
+                      </connections>
+                      <outputs>
+                        <output
+                          id="57"
+                          name="OLE DB Source Output">
+                          <outputColumns>
+                            <outputColumn
+                              id="58"
+                              name="THUNK_COLUMN"
+                              lineageId="58"
+                              dataType="bool"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              truncationRowDisposition="FailComponent"
+                              externalMetadataColumnId="59" />
+                          </outputColumns>
+                          <externalMetadataColumns
+                            isUsed="True">
+                            <externalMetadataColumn
+                              id="59"
+                              name="THUNK_COLUMN"
+                              dataType="bool" />
+                          </externalMetadataColumns>
+                        </output>
+                        <output
+                          id="60"
+                          name="OLE DB Source Error Output"
+                          isErrorOut="true">
+                          <outputColumns>
+                            <outputColumn
+                              id="61"
+                              name="ErrorCode"
+                              lineageId="61"
+                              dataType="i4"
+                              specialFlags="1" />
+                            <outputColumn
+                              id="62"
+                              name="ErrorColumn"
+                              lineageId="62"
+                              dataType="i4"
+                              specialFlags="2" />
+                            <outputColumn
+                              id="63"
+                              name="THUNK_COLUMN"
+                              lineageId="63"
+                              dataType="bool" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                    <component
+                      id="64"
+                      name="Table Difference"
+                      componentClassID="Microsoft.ManagedComponentHost"
+                      description="Find the difference between two data flows."
+                      validateExternalMetadata="False"
+                      version="3">
+                      <properties>
+                        <property
+                          id="72"
+                          name="UserComponentTypeName"
+                          dataType="System.String">CozyRoc.TableDifference</property>
+                        <property
+                          id="80"
+                          name="NewInputLineageIDs"
+                          dataType="System.Int32"
+                          isArray="true"
+                          containsID="true">
+                          <arrayElements
+                            arrayElementCount="1">
+                            <arrayElement
+                              dataType="System.Int32">42</arrayElement>
+                          </arrayElements>
+                        </property>
+                        <property
+                          id="81"
+                          name="OldInputLineageIDs"
+                          dataType="System.Int32"
+                          isArray="true"
+                          containsID="true">
+                          <arrayElements
+                            arrayElementCount="1">
+                            <arrayElement
+                              dataType="System.Int32">58</arrayElement>
+                          </arrayElements>
+                        </property>
+                        <property
+                          id="82"
+                          name="KeyOrders"
+                          dataType="System.Int32"
+                          isArray="true">
+                          <arrayElements
+                            arrayElementCount="1">
+                            <arrayElement
+                              dataType="System.Int32">0</arrayElement>
+                          </arrayElements>
+                        </property>
+                        <property
+                          id="83"
+                          name="UpdateIDs"
+                          dataType="System.Int32"
+                          isArray="true">
+                          <arrayElements
+                            arrayElementCount="1">
+                            <arrayElement
+                              dataType="System.Int32">10</arrayElement>
+                          </arrayElements>
+                        </property>
+                        <property
+                          id="84"
+                          name="CheckOptions"
+                          dataType="System.Int32"
+                          isArray="true">
+                          <arrayElements
+                            arrayElementCount="1">
+                            <arrayElement
+                              dataType="System.Int32">1</arrayElement>
+                          </arrayElements>
+                        </property>
+                        <property
+                          id="85"
+                          name="Names"
+                          dataType="System.String"
+                          isArray="true">
+                          <arrayElements
+                            arrayElementCount="1">
+                            <arrayElement
+                              dataType="System.String">THUNK_COLUMN</arrayElement>
+                          </arrayElements>
+                        </property>
+                        <property
+                          id="101"
+                          name="StringCompareCultureId"
+                          dataType="System.Int32">0</property>
+                        <property
+                          id="102"
+                          name="StringCompareIgnoreCase"
+                          dataType="System.Boolean">false</property>
+                        <property
+                          id="103"
+                          name="StringCompareIgnoreKana"
+                          dataType="System.Boolean">false</property>
+                        <property
+                          id="104"
+                          name="StringCompareIgnoreWidth"
+                          dataType="System.Boolean">false</property>
+                        <property
+                          id="105"
+                          name="StringCompareIgnoreNonSpace"
+                          dataType="System.Boolean">false</property>
+                        <property
+                          id="106"
+                          name="StringCompareIgnoreSymbols"
+                          dataType="System.Boolean">false</property>
+                        <property
+                          id="107"
+                          name="StringCompareSort"
+                          dataType="System.Boolean">false</property>
+                        <property
+                          id="108"
+                          name="EnableLogOutput"
+                          dataType="System.Boolean">false</property>
+                      </properties>
+                      <inputs>
+                        <input
+                          id="68"
+                          name="New Data Flow">
+                          <properties>
+                            <property
+                              id="69"
+                              name="InputType"
+                              dataType="System.String">NEW</property>
+                          </properties>
+                          <inputColumns>
+                            <inputColumn
+                              id="78"
+                              lineageId="42"
+                              cachedName="THUNK_COLUMN"
+                              cachedDataType="bool" />
+                          </inputColumns>
+                          <externalMetadataColumns />
+                        </input>
+                        <input
+                          id="70"
+                          name="Old Data Flow">
+                          <properties>
+                            <property
+                              id="71"
+                              name="InputType"
+                              dataType="System.String">OLD</property>
+                          </properties>
+                          <inputColumns>
+                            <inputColumn
+                              id="79"
+                              lineageId="58"
+                              cachedName="THUNK_COLUMN"
+                              cachedDataType="bool" />
+                          </inputColumns>
+                          <externalMetadataColumns />
+                        </input>
+                      </inputs>
+                      <outputs>
+                        <output
+                          id="86"
+                          name="Update ID 10"
+                          description="Updated rows with change on ID less or equal to 10">
+                          <properties>
+                            <property
+                              id="87"
+                              name="OutputType"
+                              dataType="System.String">Updated</property>
+                            <property
+                              id="88"
+                              name="UpdateId"
+                              dataType="System.Int32">10</property>
+                          </properties>
+                          <outputColumns>
+                            <outputColumn
+                              id="89"
+                              name="THUNK_COLUMN"
+                              lineageId="89"
+                              dataType="bool">
+                              <properties>
+                                <property
+                                  id="90"
+                                  name="OutputColumnType"
+                                  dataType="System.Int32">0</property>
+                              </properties>
+                            </outputColumn>
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                        <output
+                          id="91"
+                          name="New"
+                          description="New rows present in the new input but not in the old one">
+                          <properties>
+                            <property
+                              id="92"
+                              name="OutputType"
+                              dataType="System.String">New</property>
+                            <property
+                              id="93"
+                              name="UpdateId"
+                              dataType="System.Int32">0</property>
+                          </properties>
+                          <outputColumns>
+                            <outputColumn
+                              id="94"
+                              name="THUNK_COLUMN"
+                              lineageId="94"
+                              dataType="bool">
+                              <properties>
+                                <property
+                                  id="95"
+                                  name="OutputColumnType"
+                                  dataType="System.Int32">0</property>
+                              </properties>
+                            </outputColumn>
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                        <output
+                          id="96"
+                          name="Deleted"
+                          description="Deleted rows present in the old input but not in the new one">
+                          <properties>
+                            <property
+                              id="97"
+                              name="OutputType"
+                              dataType="System.String">Deleted</property>
+                            <property
+                              id="98"
+                              name="UpdateId"
+                              dataType="System.Int32">0</property>
+                          </properties>
+                          <outputColumns>
+                            <outputColumn
+                              id="99"
+                              name="THUNK_COLUMN"
+                              lineageId="99"
+                              dataType="bool">
+                              <properties>
+                                <property
+                                  id="100"
+                                  name="OutputColumnType"
+                                  dataType="System.Int32">0</property>
+                              </properties>
+                            </outputColumn>
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                    <component
+                      id="110"
+                      name="OLE DB Destination - UPDATES"
+                      componentClassID="Microsoft.OLEDBDestination"
+                      description="OLE DB Destination"
+                      usesDispositions="true"
+                      validateExternalMetadata="False"
+                      version="4"
+                      contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4">
+                      <properties>
+                        <property
+                          id="111"
+                          name="CommandTimeout"
+                          dataType="System.Int32"
+                          description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out.">0</property>
+                        <property
+                          id="112"
+                          name="OpenRowset"
+                          dataType="System.String"
+                          description="Specifies the name of the database object used to open a rowset."></property>
+                        <property
+                          id="113"
+                          name="OpenRowsetVariable"
+                          dataType="System.String"
+                          description="Specifies the variable that contains the name of the database object used to open a rowset.">User::DestinationTableName_UPDATE</property>
+                        <property
+                          id="114"
+                          name="SqlCommand"
+                          dataType="System.String"
+                          description="The SQL command to be executed."
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                        <property
+                          id="115"
+                          name="DefaultCodePage"
+                          dataType="System.Int32"
+                          description="Specifies the column code page to use when code page information is unavailable from the data source.">1252</property>
+                        <property
+                          id="116"
+                          name="AlwaysUseDefaultCodePage"
+                          dataType="System.Boolean"
+                          description="Forces the use of the DefaultCodePage property value when describing character data.">false</property>
+                        <property
+                          id="117"
+                          name="AccessMode"
+                          dataType="System.Int32"
+                          description="Specifies the mode used to access the database."
+                          typeConverter="AccessMode">4</property>
+                        <property
+                          id="118"
+                          name="FastLoadKeepIdentity"
+                          dataType="System.Boolean"
+                          description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on.">true</property>
+                        <property
+                          id="119"
+                          name="FastLoadKeepNulls"
+                          dataType="System.Boolean"
+                          description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on.">false</property>
+                        <property
+                          id="120"
+                          name="FastLoadOptions"
+                          dataType="System.String"
+                          description="Specifies options to be used with fast load.  Applies only if fast load is turned on.">TABLOCK,CHECK_CONSTRAINTS</property>
+                        <property
+                          id="121"
+                          name="FastLoadMaxInsertCommitSize"
+                          dataType="System.Int32"
+                          description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on.">2147483647</property>
+                      </properties>
+                      <connections>
+                        <connection
+                          id="122"
+                          name="OleDbConnection"
+                          description="The OLE DB runtime connection used to access the database."
+                          connectionManagerID="{8E804A0A-74DC-4B6B-B124-C0D594CD724F}" />
+                      </connections>
+                      <inputs>
+                        <input
+                          id="123"
+                          name="OLE DB Destination Input"
+                          hasSideEffects="true"
+                          errorOrTruncationOperation="Insert"
+                          errorRowDisposition="FailComponent">
+                          <inputColumns>
+                            <inputColumn
+                              id="124"
+                              lineageId="89"
+                              externalMetadataColumnId="125"
+                              cachedName="THUNK_COLUMN"
+                              cachedDataType="bool" />
+                          </inputColumns>
+                          <externalMetadataColumns
+                            isUsed="True">
+                            <externalMetadataColumn
+                              id="125"
+                              name="THUNK_COLUMN"
+                              dataType="bool" />
+                          </externalMetadataColumns>
+                        </input>
+                      </inputs>
+                      <outputs>
+                        <output
+                          id="126"
+                          name="OLE DB Destination Error Output"
+                          exclusionGroup="1"
+                          synchronousInputId="123"
+                          isErrorOut="true">
+                          <outputColumns>
+                            <outputColumn
+                              id="127"
+                              name="ErrorCode"
+                              lineageId="127"
+                              dataType="i4"
+                              specialFlags="1" />
+                            <outputColumn
+                              id="128"
+                              name="ErrorColumn"
+                              lineageId="128"
+                              dataType="i4"
+                              specialFlags="2" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                    <component
+                      id="129"
+                      name="OLE DB Destination - DELETES"
+                      componentClassID="Microsoft.OLEDBDestination"
+                      description="OLE DB Destination"
+                      usesDispositions="true"
+                      validateExternalMetadata="False"
+                      version="4"
+                      contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4">
+                      <properties>
+                        <property
+                          id="130"
+                          name="CommandTimeout"
+                          dataType="System.Int32"
+                          description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out.">0</property>
+                        <property
+                          id="131"
+                          name="OpenRowset"
+                          dataType="System.String"
+                          description="Specifies the name of the database object used to open a rowset."></property>
+                        <property
+                          id="132"
+                          name="OpenRowsetVariable"
+                          dataType="System.String"
+                          description="Specifies the variable that contains the name of the database object used to open a rowset.">User::DestinationTableName_DELETE</property>
+                        <property
+                          id="133"
+                          name="SqlCommand"
+                          dataType="System.String"
+                          description="The SQL command to be executed."
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                        <property
+                          id="134"
+                          name="DefaultCodePage"
+                          dataType="System.Int32"
+                          description="Specifies the column code page to use when code page information is unavailable from the data source.">1252</property>
+                        <property
+                          id="135"
+                          name="AlwaysUseDefaultCodePage"
+                          dataType="System.Boolean"
+                          description="Forces the use of the DefaultCodePage property value when describing character data.">false</property>
+                        <property
+                          id="136"
+                          name="AccessMode"
+                          dataType="System.Int32"
+                          description="Specifies the mode used to access the database."
+                          typeConverter="AccessMode">4</property>
+                        <property
+                          id="137"
+                          name="FastLoadKeepIdentity"
+                          dataType="System.Boolean"
+                          description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on.">true</property>
+                        <property
+                          id="138"
+                          name="FastLoadKeepNulls"
+                          dataType="System.Boolean"
+                          description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on.">false</property>
+                        <property
+                          id="139"
+                          name="FastLoadOptions"
+                          dataType="System.String"
+                          description="Specifies options to be used with fast load.  Applies only if fast load is turned on.">TABLOCK,CHECK_CONSTRAINTS</property>
+                        <property
+                          id="140"
+                          name="FastLoadMaxInsertCommitSize"
+                          dataType="System.Int32"
+                          description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on.">2147483647</property>
+                      </properties>
+                      <connections>
+                        <connection
+                          id="141"
+                          name="OleDbConnection"
+                          description="The OLE DB runtime connection used to access the database."
+                          connectionManagerID="{8E804A0A-74DC-4B6B-B124-C0D594CD724F}" />
+                      </connections>
+                      <inputs>
+                        <input
+                          id="142"
+                          name="OLE DB Destination Input"
+                          hasSideEffects="true"
+                          errorOrTruncationOperation="Insert"
+                          errorRowDisposition="FailComponent">
+                          <inputColumns>
+                            <inputColumn
+                              id="143"
+                              lineageId="99"
+                              externalMetadataColumnId="144"
+                              cachedName="THUNK_COLUMN"
+                              cachedDataType="bool" />
+                          </inputColumns>
+                          <externalMetadataColumns
+                            isUsed="True">
+                            <externalMetadataColumn
+                              id="144"
+                              name="THUNK_COLUMN"
+                              dataType="bool" />
+                          </externalMetadataColumns>
+                        </input>
+                      </inputs>
+                      <outputs>
+                        <output
+                          id="145"
+                          name="OLE DB Destination Error Output"
+                          exclusionGroup="1"
+                          synchronousInputId="142"
+                          isErrorOut="true">
+                          <outputColumns>
+                            <outputColumn
+                              id="146"
+                              name="ErrorCode"
+                              lineageId="146"
+                              dataType="i4"
+                              specialFlags="1" />
+                            <outputColumn
+                              id="147"
+                              name="ErrorColumn"
+                              lineageId="147"
+                              dataType="i4"
+                              specialFlags="2" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                  </components>
+                  <paths>
+                    <path
+                      id="39"
+                      name="OLE DB Source Output"
+                      startId="11"
+                      endId="34" />
+                    <path
+                      id="73"
+                      name="Derived Column Output"
+                      startId="35"
+                      endId="68" />
+                    <path
+                      id="75"
+                      name="OLE DB Source Output"
+                      startId="57"
+                      endId="70" />
+                    <path
+                      id="109"
+                      name="New"
+                      startId="91"
+                      endId="29" />
+                    <path
+                      id="148"
+                      name="Update ID 10"
+                      startId="86"
+                      endId="123" />
+                    <path
+                      id="149"
+                      name="Deleted"
+                      startId="96"
+                      endId="142" />
+                  </paths>
+                  <ScriptProject
+                    Name="ST_5088b1443464418bb10d090072c10f51"
+                    VSTAMajorVersion="14"
+                    VSTAMinorVersion="0"
+                    Language="CSharp" />
+                  <ArrayOfDynamicComponentProperties xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+                    <DynamicComponentProperties>
+                      <item>
+                        <key>
+                          <string>ID</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:int">64</anyType>
+                        </value>
+                      </item>
+                      <item>
+                        <key>
+                          <string>ColumnConfigurationVariable</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:string">User::DELTA_COMP_CFG</anyType>
+                        </value>
+                      </item>
+                    </DynamicComponentProperties>
+                    <DynamicComponentProperties>
+                      <item>
+                        <key>
+                          <string>ID</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:int">110</anyType>
+                        </value>
+                      </item>
+                      <item>
+                        <key>
+                          <string>IsMappingVariable</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:boolean">false</anyType>
+                        </value>
+                      </item>
+                      <item>
+                        <key>
+                          <string>Mapping</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:string"></anyType>
+                        </value>
+                      </item>
+                      <item>
+                        <key>
+                          <string>MandatoryMapping</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:int">2</anyType>
+                        </value>
+                      </item>
+                      <item>
+                        <key>
+                          <string>MandatoryMappingList</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:string"></anyType>
+                        </value>
+                      </item>
+                    </DynamicComponentProperties>
+                    <DynamicComponentProperties>
+                      <item>
+                        <key>
+                          <string>ID</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:int">129</anyType>
+                        </value>
+                      </item>
+                      <item>
+                        <key>
+                          <string>IsMappingVariable</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:boolean">false</anyType>
+                        </value>
+                      </item>
+                      <item>
+                        <key>
+                          <string>Mapping</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:string"></anyType>
+                        </value>
+                      </item>
+                      <item>
+                        <key>
+                          <string>MandatoryMapping</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:int">2</anyType>
+                        </value>
+                      </item>
+                      <item>
+                        <key>
+                          <string>MandatoryMappingList</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:string"></anyType>
+                        </value>
+                      </item>
+                    </DynamicComponentProperties>
+                    <DynamicComponentProperties>
+                      <item>
+                        <key>
+                          <string>ID</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:int">46</anyType>
+                        </value>
+                      </item>
+                      <item>
+                        <key>
+                          <string>FilterType</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:int">0</anyType>
+                        </value>
+                      </item>
+                      <item>
+                        <key>
+                          <string>Filter</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:string"></anyType>
+                        </value>
+                      </item>
+                      <item>
+                        <key>
+                          <string>ErrorRowDisposition</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:int">4</anyType>
+                        </value>
+                      </item>
+                      <item>
+                        <key>
+                          <string>TruncationRowDisposition</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:int">4</anyType>
+                        </value>
+                      </item>
+                    </DynamicComponentProperties>
+                    <DynamicComponentProperties>
+                      <item>
+                        <key>
+                          <string>ID</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:int">16</anyType>
+                        </value>
+                      </item>
+                      <item>
+                        <key>
+                          <string>IsMappingVariable</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:boolean">false</anyType>
+                        </value>
+                      </item>
+                      <item>
+                        <key>
+                          <string>Mapping</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:string"></anyType>
+                        </value>
+                      </item>
+                      <item>
+                        <key>
+                          <string>MandatoryMapping</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:int">2</anyType>
+                        </value>
+                      </item>
+                      <item>
+                        <key>
+                          <string>MandatoryMappingList</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:string"></anyType>
+                        </value>
+                      </item>
+                    </DynamicComponentProperties>
+                    <DynamicComponentProperties>
+                      <item>
+                        <key>
+                          <string>ID</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:int">33</anyType>
+                        </value>
+                      </item>
+                      <item>
+                        <key>
+                          <string>DerivedConfigurationVariable</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:string">User::VALID_FROM_CFG</anyType>
+                        </value>
+                      </item>
+                    </DynamicComponentProperties>
+                    <DynamicComponentProperties>
+                      <item>
+                        <key>
+                          <string>ID</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:int">1</anyType>
+                        </value>
+                      </item>
+                      <item>
+                        <key>
+                          <string>FilterType</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:int">0</anyType>
+                        </value>
+                      </item>
+                      <item>
+                        <key>
+                          <string>Filter</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:string"></anyType>
+                        </value>
+                      </item>
+                      <item>
+                        <key>
+                          <string>ErrorRowDisposition</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:int">4</anyType>
+                        </value>
+                      </item>
+                      <item>
+                        <key>
+                          <string>TruncationRowDisposition</string>
+                        </key>
+                        <value>
+                          <anyType
+                            xsi:type="xsd:int">4</anyType>
+                        </value>
+                      </item>
+                    </DynamicComponentProperties>
+                  </ArrayOfDynamicComponentProperties>
+                </pipeline>
+              </DTS:ObjectData>
+            </DTS:Executable>
+            <DTS:Executable
+              DTS:refId="Package\Foreach Loop - Load tables\Foreach Loop Container - Business dates to historize\Execute SQL Task - Create temporary tables"
+              DTS:CreationName="Microsoft.ExecuteSQLTask"
+              DTS:Description="Execute SQL Task"
+              DTS:DTSID="{65416241-89E5-4D83-AC74-AA64CAF132AE}"
+              DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="Execute SQL Task - Create temporary tables"
+              DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+              DTS:ThreadHint="0">
+              <DTS:Variables />
+              <DTS:PropertyExpression
+                DTS:Name="SqlStatementSource">"select TOP 0 * into " + @[User::DestinationTableName_INSERT]  +" from " +   @[User::DestinationTableName] + "; \r\n" + "select TOP 0 * into " + @[User::DestinationTableName_UPDATE]  +" from " +   @[User::DestinationTableName] + "; \r\n" + "select TOP 0 * into " + @[User::DestinationTableName_DELETE]  +" from " +   @[User::DestinationTableName] + "; \r\n"</DTS:PropertyExpression>
+              <DTS:ObjectData>
+                <SQLTask:SqlTaskData
+                  SQLTask:Connection="{8E804A0A-74DC-4B6B-B124-C0D594CD724F}"
+                  SQLTask:SqlStatementSource="select TOP 0 * into ._I from .; &#xA;select TOP 0 * into ._U from .; &#xA;select TOP 0 * into ._D from .; &#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              </DTS:ObjectData>
+            </DTS:Executable>
+            <DTS:Executable
+              DTS:refId="Package\Foreach Loop - Load tables\Foreach Loop Container - Business dates to historize\Execute SQL Task - Drop temporary tables"
+              DTS:CreationName="Microsoft.ExecuteSQLTask"
+              DTS:Description="Execute SQL Task"
+              DTS:DTSID="{255DD45F-5F5C-4D8A-892B-9BC231A57DA2}"
+              DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="Execute SQL Task - Drop temporary tables"
+              DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+              DTS:ThreadHint="0">
+              <DTS:Variables />
+              <DTS:PropertyExpression
+                DTS:Name="SqlStatementSource">"DROP TABLE " + @[User::DestinationTableName_INSERT]  +"; \r\n"+"DROP TABLE " + @[User::DestinationTableName_UPDATE]  +"; \r\n" +"DROP TABLE " + @[User::DestinationTableName_DELETE]  +"; \r\n"</DTS:PropertyExpression>
+              <DTS:ObjectData>
+                <SQLTask:SqlTaskData
+                  SQLTask:Connection="{8E804A0A-74DC-4B6B-B124-C0D594CD724F}"
+                  SQLTask:SqlStatementSource="DROP TABLE ._I; &#xA;DROP TABLE ._U; &#xA;DROP TABLE ._D; &#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              </DTS:ObjectData>
+            </DTS:Executable>
+            <DTS:Executable
+              DTS:refId="Package\Foreach Loop - Load tables\Foreach Loop Container - Business dates to historize\Execute SQL Task - Expire old versions"
+              DTS:CreationName="Microsoft.ExecuteSQLTask"
+              DTS:Description="Execute SQL Task"
+              DTS:DTSID="{3CE260C8-204D-4F97-AC80-DD12C76E20FC}"
+              DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="Execute SQL Task - Expire old versions"
+              DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+              DTS:ThreadHint="0">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <SQLTask:SqlTaskData
+                  SQLTask:Connection="{8E804A0A-74DC-4B6B-B124-C0D594CD724F}"
+                  SQLTask:SqlStmtSourceType="Variable"
+                  SQLTask:SqlStatementSource="User::UpdateSql" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              </DTS:ObjectData>
+            </DTS:Executable>
+            <DTS:Executable
+              DTS:refId="Package\Foreach Loop - Load tables\Foreach Loop Container - Business dates to historize\Execute SQL Task - Set technical columns for DataStore tables"
+              DTS:CreationName="Microsoft.ExecuteSQLTask"
+              DTS:Description="Execute SQL Task"
+              DTS:DTSID="{EA16AF1B-D4C4-4254-BB87-A1B4EE73D6F1}"
+              DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="Execute SQL Task - Set technical columns for DataStore tables"
+              DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+              DTS:ThreadHint="0">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <SQLTask:SqlTaskData
+                  SQLTask:Connection="{4FB21FE4-6D5A-4986-BF46-FB24AFBE17AA}"
+                  SQLTask:SqlStatementSource="select &#xA;'VALID_FROM' as ResultColumn,&#xA;'@[User::VALID_FROM]' as Expression,&#xA;'DT_DATE' as DataType,&#xA;0 as Length,&#xA;0 as Precision,&#xA;0 as Scale,&#xA;0 as CodePage&#xA;union all&#xA;select &#xA;'VALID_TO' as ResultColumn,&#xA;'@[User::VALID_TO]' as Expression,&#xA;'DT_DATE' as DataType,&#xA;0 as Length,&#xA;0 as Precision,&#xA;0 as Scale,&#xA;0 as CodePage&#xA;union all&#xA;select &#xA;'DS_SK' as ResultColumn,&#xA;'0' as Expression,&#xA;'DT_I4' as DataType,&#xA;0 as Length,&#xA;0 as Precision,&#xA;0 as Scale,&#xA;0 as CodePage&#xA;union all&#xA;select &#xA;'INSERT_TIME' as ResultColumn,&#xA;'GETDATE()' as Expression,&#xA;'DT_DBTIMESTAMP' as DataType,&#xA;0 as Length,&#xA;0 as Precision,&#xA;0 as Scale,&#xA;0 as CodePage&#xA;union all&#xA;select &#xA;'UPDATE_TIME' as ResultColumn,&#xA;'NULL(DT_DBTIMESTAMP)' as Expression,&#xA;'DT_DBTIMESTAMP' as DataType,&#xA;0 as Length,&#xA;0 as Precision,&#xA;0 as Scale,&#xA;0 as CodePage&#xA;union all&#xA;select &#xA;'VALID_FLAG' as ResultColumn,&#xA;'1' as Expression,&#xA;'DT_BOOL' as DataType,&#xA;0 as Length,&#xA;0 as Precision,&#xA;0 as Scale,&#xA;0 as CodePage"
+                  SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+                  <SQLTask:ResultBinding
+                    SQLTask:ResultName="0"
+                    SQLTask:DtsVariableName="User::VALID_FROM_CFG" />
+                </SQLTask:SqlTaskData>
+              </DTS:ObjectData>
+            </DTS:Executable>
+          </DTS:Executables>
+          <DTS:PrecedenceConstraints>
+            <DTS:PrecedenceConstraint
+              DTS:refId="Package\Foreach Loop - Load tables\Foreach Loop Container - Business dates to historize.PrecedenceConstraints[Constraint]"
+              DTS:CreationName=""
+              DTS:DTSID="{BC425F8A-AD82-4E7C-9B07-2B1F89B95548}"
+              DTS:From="Package\Foreach Loop - Load tables\Foreach Loop Container - Business dates to historize\Execute SQL Task - Set technical columns for DataStore tables"
+              DTS:LogicalAnd="True"
+              DTS:ObjectName="Constraint"
+              DTS:To="Package\Foreach Loop - Load tables\Foreach Loop Container - Business dates to historize\Execute SQL Task - Create temporary tables" />
+            <DTS:PrecedenceConstraint
+              DTS:refId="Package\Foreach Loop - Load tables\Foreach Loop Container - Business dates to historize.PrecedenceConstraints[Constraint 1]"
+              DTS:CreationName=""
+              DTS:DTSID="{7A553541-5F59-4526-88B4-4241F8587D3D}"
+              DTS:From="Package\Foreach Loop - Load tables\Foreach Loop Container - Business dates to historize\Execute SQL Task - Create temporary tables"
+              DTS:LogicalAnd="True"
+              DTS:ObjectName="Constraint 1"
+              DTS:To="Package\Foreach Loop - Load tables\Foreach Loop Container - Business dates to historize\Data Flow Task Plus - Load table" />
+            <DTS:PrecedenceConstraint
+              DTS:refId="Package\Foreach Loop - Load tables\Foreach Loop Container - Business dates to historize.PrecedenceConstraints[Constraint 2]"
+              DTS:CreationName=""
+              DTS:DTSID="{D458B757-9B44-47EE-9B0B-5434034C2CF6}"
+              DTS:From="Package\Foreach Loop - Load tables\Foreach Loop Container - Business dates to historize\Data Flow Task Plus - Load table"
+              DTS:LogicalAnd="True"
+              DTS:ObjectName="Constraint 2"
+              DTS:To="Package\Foreach Loop - Load tables\Foreach Loop Container - Business dates to historize\Execute SQL Task - Expire old versions" />
+            <DTS:PrecedenceConstraint
+              DTS:refId="Package\Foreach Loop - Load tables\Foreach Loop Container - Business dates to historize.PrecedenceConstraints[Constraint 3]"
+              DTS:CreationName=""
+              DTS:DTSID="{7748F718-F9B0-40AB-8919-1D3455AA3529}"
+              DTS:From="Package\Foreach Loop - Load tables\Foreach Loop Container - Business dates to historize\Execute SQL Task - Expire old versions"
+              DTS:LogicalAnd="True"
+              DTS:ObjectName="Constraint 3"
+              DTS:To="Package\Foreach Loop - Load tables\Foreach Loop Container - Business dates to historize\Data Flow Task Plus - Add inserts" />
+            <DTS:PrecedenceConstraint
+              DTS:refId="Package\Foreach Loop - Load tables\Foreach Loop Container - Business dates to historize.PrecedenceConstraints[Constraint 4]"
+              DTS:CreationName=""
+              DTS:DTSID="{FB3B73EA-AAEC-4A75-ADF7-0C74E84D1DEA}"
+              DTS:From="Package\Foreach Loop - Load tables\Foreach Loop Container - Business dates to historize\Data Flow Task Plus - Add inserts"
+              DTS:LogicalAnd="True"
+              DTS:ObjectName="Constraint 4"
+              DTS:To="Package\Foreach Loop - Load tables\Foreach Loop Container - Business dates to historize\Execute SQL Task - Drop temporary tables" />
+          </DTS:PrecedenceConstraints>
+          <DTS:ForEachVariableMappings>
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{C2563D5D-62AF-4315-B003-2FA254BF3340}"
+              DTS:ObjectName="{C2563D5D-62AF-4315-B003-2FA254BF3340}"
+              DTS:ValueIndex="0"
+              DTS:VariableName="User::VALID_FROM" />
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{6DBDAC54-879E-4ADE-84E9-BF293FF02C37}"
+              DTS:ObjectName="{6DBDAC54-879E-4ADE-84E9-BF293FF02C37}"
+              DTS:ValueIndex="1"
+              DTS:VariableName="User::EXEC_GUID_TO_LOAD" />
+          </DTS:ForEachVariableMappings>
+        </DTS:Executable>
       </DTS:Executables>
       <DTS:PrecedenceConstraints>
         <DTS:PrecedenceConstraint
@@ -993,11 +2884,27 @@ SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableNam
         <DTS:PrecedenceConstraint
           DTS:refId="Package\Foreach Loop - Load tables.PrecedenceConstraints[Constraint 1]"
           DTS:CreationName=""
-          DTS:DTSID="{2E98D3AD-0ADC-48E0-982F-6DBDE184343B}"
+          DTS:DTSID="{0F6650DC-645B-4B84-A48A-C4AC49F9BADB}"
           DTS:From="Package\Foreach Loop - Load tables\Execute SQL Task - Get Source and Destination Column Info"
           DTS:LogicalAnd="True"
           DTS:ObjectName="Constraint 1"
-          DTS:To="Package\Foreach Loop - Load tables\Data Flow Task Plus - Load table" />
+          DTS:To="Package\Foreach Loop - Load tables\Execute SQL Task - Get delta compare info" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach Loop - Load tables.PrecedenceConstraints[Constraint 2]"
+          DTS:CreationName=""
+          DTS:DTSID="{F3719D07-896B-4F27-9AE6-711F9FE570A4}"
+          DTS:From="Package\Foreach Loop - Load tables\Execute SQL Task - Get business dates and exec guids to load in DS"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 2"
+          DTS:To="Package\Foreach Loop - Load tables\Foreach Loop Container - Business dates to historize" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach Loop - Load tables.PrecedenceConstraints[Constraint 3]"
+          DTS:CreationName=""
+          DTS:DTSID="{17A2AAB8-95C4-48DB-AB60-3ECBBEAF4266}"
+          DTS:From="Package\Foreach Loop - Load tables\Execute SQL Task - Get delta compare info"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 3"
+          DTS:To="Package\Foreach Loop - Load tables\Execute SQL Task - Get business dates and exec guids to load in DS" />
       </DTS:PrecedenceConstraints>
       <DTS:ForEachVariableMappings>
         <DTS:ForEachVariableMapping
@@ -1046,37 +2953,182 @@ SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableNam
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssge="clr-namespace:Microsoft.SqlServer.Graph.Extended;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssge="clr-namespace:Microsoft.SqlServer.Graph.Extended;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
         <NodeLayout
-          Size="313,42"
+          Size="312.8,41.6"
           Id="Package\Execute SQL Task -  Technical and Audit Columns"
           TopLeft="702,132" />
         <NodeLayout
-          Size="376,42"
+          Size="376,41.6"
           Id="Package\Execute SQL Task - Get connection string for source system ID"
           TopLeft="468,50" />
         <NodeLayout
-          Size="239,42"
+          Size="239.2,41.6"
           Id="Package\Execute SQL Task - Get Table IDs"
           TopLeft="375,129" />
         <NodeLayout
-          Size="361,42"
-          Id="Package\Foreach Loop - Load tables\Data Flow Task Plus - Load table"
-          TopLeft="57,182" />
+          Size="399.2,41.6"
+          Id="Package\Foreach Loop - Load tables\Execute SQL Task - Get business dates and exec guids to load in DS"
+          TopLeft="58.3020468636784,271.229138265212" />
         <NodeLayout
-          Size="364,42"
+          Size="361.6,41.6"
+          Id="Package\Foreach Loop - Load tables\Execute SQL Task - Get delta compare info"
+          TopLeft="57.4857216815561,176.040342373172" />
+        <NodeLayout
+          Size="364,41.6"
           Id="Package\Foreach Loop - Load tables\Execute SQL Task - Get Source and Destination Column Info"
           TopLeft="55,95" />
         <NodeLayout
-          Size="362,42"
+          Size="361.6,41.6"
           Id="Package\Foreach Loop - Load tables\Execute SQL Task - Get Source and Destination Table Info"
           TopLeft="51,26" />
+        <NodeLayout
+          Size="360.8,41.6"
+          Id="Package\Foreach Loop - Load tables\Foreach Loop Container - Business dates to historize\Data Flow Task Plus - Load table"
+          TopLeft="62.4857148695965,196.657707367031" />
+        <NodeLayout
+          Size="362.4,41.6"
+          Id="Package\Foreach Loop - Load tables\Foreach Loop Container - Business dates to historize\Execute SQL Task - Create temporary tables"
+          TopLeft="63.7877630956668,106.5815216138" />
+        <NodeLayout
+          Size="349.6,41.6"
+          Id="Package\Foreach Loop - Load tables\Foreach Loop Container - Business dates to historize\Execute SQL Task - Drop temporary tables"
+          TopLeft="64.6040896401806,424.699173134104" />
+        <NodeLayout
+          Size="372.8,41.6"
+          Id="Package\Foreach Loop - Load tables\Foreach Loop Container - Business dates to historize\Execute SQL Task - Set technical columns for DataStore tables"
+          TopLeft="60.0598710355769,24.5781565717898" />
+        <EdgeLayout
+          Id="Package\Foreach Loop - Load tables\Foreach Loop Container - Business dates to historize.PrecedenceConstraints[Constraint]"
+          TopLeft="245.723817065622,66.1781565717898">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,40.4033650420099"
+              Start="0,0"
+              End="0,32.9033650420099">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32.9033650420099" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Foreach Loop - Load tables\Foreach Loop Container - Business dates to historize.PrecedenceConstraints[Constraint 1]"
+          TopLeft="243.936738982632,148.1815216138">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,48.4761857532316"
+              Start="0,0"
+              End="0,40.9761857532316">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,40.9761857532316" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="356.8,41.6"
+          Id="Package\Foreach Loop - Load tables\Foreach Loop Container - Business dates to historize\Execute SQL Task - Expire old versions"
+          TopLeft="62.9714365511525,274.917655479254" />
+        <EdgeLayout
+          Id="Package\Foreach Loop - Load tables\Foreach Loop Container - Business dates to historize.PrecedenceConstraints[Constraint 2]"
+          TopLeft="242.128575710374,238.257707367031">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,36.6599481122232"
+              Start="0,0"
+              End="0,29.1599481122232">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,29.1599481122232" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="348,41.6"
+          Id="Package\Foreach Loop - Load tables\Foreach Loop Container - Business dates to historize\Data Flow Task Plus - Add inserts"
+          TopLeft="67.0530692737236,340.934462630931" />
+        <EdgeLayout
+          Id="Package\Foreach Loop - Load tables\Foreach Loop Container - Business dates to historize.PrecedenceConstraints[Constraint 3]"
+          TopLeft="241.212252912438,316.517655479254">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,24.4168071516771"
+              Start="0,0"
+              End="0,16.9168071516771">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.9168071516771" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Foreach Loop - Load tables\Foreach Loop Container - Business dates to historize.PrecedenceConstraints[Constraint 4]"
+          TopLeft="240.228579456952,382.534462630931">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,42.1647105031726"
+              Start="0,0"
+              End="0,34.6647105031726">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,34.6647105031726" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="480,522.4"
+          Size="480,565.6"
+          Id="Package\Foreach Loop - Load tables\Foreach Loop Container - Business dates to historize"
+          TopLeft="28.7238155896973,347.408410556093" />
         <EdgeLayout
           Id="Package\Foreach Loop - Load tables.PrecedenceConstraints[Constraint]"
           TopLeft="234.5,68">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,27"
               Start="0,0"
               End="0,19.5">
@@ -1095,18 +3147,86 @@ SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableNam
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Foreach Loop - Load tables.PrecedenceConstraints[Constraint 1]"
-          TopLeft="237.25,137">
+          TopLeft="237.642860840778,136.6">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,45"
+              StartConnector="{x:Null}"
+              EndConnector="0,39.4403423731717"
               Start="0,0"
-              End="0,37.5">
+              End="0,31.9403423731717">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,37.5" />
+                    End="0,31.9403423731717" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Foreach Loop - Load tables.PrecedenceConstraints[Constraint 2]"
+          TopLeft="257.902046863678,312.829138265212">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="10.8217687260189,34.579272290881"
+              Start="0,0"
+              End="10.8217687260189,27.079272290881">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,13.2896361454405" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,13.2896361454405"
+                    Point2="0,17.2896361454405"
+                    Point3="4,17.2896361454405" />
+                  <mssgle:LineSegment
+                    End="6.82176872601895,17.2896361454405" />
+                  <mssgle:CubicBezierSegment
+                    Point1="6.82176872601895,17.2896361454405"
+                    Point2="10.8217687260189,17.2896361454405"
+                    Point3="10.8217687260189,21.2896361454405" />
+                  <mssgle:LineSegment
+                    End="10.8217687260189,27.079272290881" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Foreach Loop - Load tables.PrecedenceConstraints[Constraint 3]"
+          TopLeft="238.285721681556,217.640342373172">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="19.6163251821222,53.5887958920404"
+              Start="0,0"
+              End="19.6163251821222,46.0887958920404">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22.7943979460202" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,22.7943979460202"
+                    Point2="0,26.7943979460202"
+                    Point3="4,26.7943979460202" />
+                  <mssgle:LineSegment
+                    End="15.6163251821222,26.7943979460202" />
+                  <mssgle:CubicBezierSegment
+                    Point1="15.6163251821222,26.7943979460202"
+                    Point2="19.6163251821222,26.7943979460202"
+                    Point3="19.6163251821222,30.7943979460202" />
+                  <mssgle:LineSegment
+                    End="19.6163251821222,46.0887958920404" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1118,36 +3238,36 @@ SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableNam
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="549,264"
-          Size="549,307"
+          PanelSize="548.8,968"
+          Size="548.8,1011.2"
           Id="Package\Foreach Loop - Load tables"
           TopLeft="377,226" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="494.5,171">
+          TopLeft="494.6,170.6">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="21.75,55"
+              StartConnector="{x:Null}"
+              EndConnector="21.6,55.4"
               Start="0,0"
-              End="21.75,47.5">
+              End="21.6,47.9">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,32.4894259818731" />
+                    End="0,32.7547388781431" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,32.4894259818731"
-                    Point2="0,36.4894259818731"
-                    Point3="4,36.4894259818731" />
+                    Point1="0,32.7547388781431"
+                    Point2="0,36.7547388781431"
+                    Point3="4,36.7547388781431" />
                   <mssgle:LineSegment
-                    End="17.75,36.4894259818731" />
+                    End="17.6,36.7547388781431" />
                   <mssgle:CubicBezierSegment
-                    Point1="17.75,36.4894259818731"
-                    Point2="21.75,36.4894259818731"
-                    Point3="21.75,40.4894259818731" />
+                    Point1="17.6,36.7547388781431"
+                    Point2="21.6,36.7547388781431"
+                    Point3="21.6,40.7547388781431" />
                   <mssgle:LineSegment
-                    End="21.75,47.5" />
+                    End="21.6,47.9" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1158,30 +3278,30 @@ SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableNam
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="858.5,174">
+          TopLeft="858.4,173.6">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-71.75,52"
+              StartConnector="{x:Null}"
+              EndConnector="-71.8000000000001,52.4"
               Start="0,0"
-              End="-71.75,44.5">
+              End="-71.8000000000001,44.9">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,30.4990936555891" />
+                    End="0,30.7644100580271" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,30.4990936555891"
-                    Point2="0,34.4990936555891"
-                    Point3="-4,34.4990936555891" />
+                    Point1="0,30.7644100580271"
+                    Point2="0,34.7644100580271"
+                    Point3="-4,34.7644100580271" />
                   <mssgle:LineSegment
-                    End="-67.75,34.4990936555891" />
+                    End="-67.8000000000001,34.7644100580271" />
                   <mssgle:CubicBezierSegment
-                    Point1="-67.75,34.4990936555891"
-                    Point2="-71.75,34.4990936555891"
-                    Point3="-71.75,38.4990936555891" />
+                    Point1="-67.8000000000001,34.7644100580271"
+                    Point2="-71.8000000000001,34.7644100580271"
+                    Point3="-71.8000000000001,38.7644100580271" />
                   <mssgle:LineSegment
-                    End="-71.75,44.5" />
+                    End="-71.8000000000001,44.9" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1192,18 +3312,18 @@ SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableNam
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 2]"
-          TopLeft="653.75,92">
+          TopLeft="653.7,91.6">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,134"
+              StartConnector="{x:Null}"
+              EndConnector="0,134.4"
               Start="0,0"
-              End="0,126.5">
+              End="0,126.9">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,126.5" />
+                    End="0,126.9" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1215,7 +3335,7 @@ SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableNam
         <AnnotationLayout
           Text="1 - BEFORE CONFIGURING THIS DTSX:&#xA;- make sure that all DBs are created"
           ParentId="Package"
-          Size="308,58"
+          Size="308,58.4"
           Id="ae1f3ac7-65e5-45ee-87c6-136921d6bd03"
           TopLeft="32,18">
           <AnnotationLayout.FontInfo>
@@ -1233,28 +3353,28 @@ SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableNam
         <AnnotationLayout
           Text="The SOURCE SYSTEM connection is dynamic, &#xA;its connection string is retrieved from SSISConfiguration, based on the SourceSystemID variable,&#xA;which is set at runtime (for example passed as a job parameter)"
           ParentId="Package"
-          FontInfo="{assembly:Null}"
+          FontInfo="{x:Null}"
           Size="536,72"
           Id="149aed85-c1e5-4ce3-8e9f-e2ac87d4625c"
           TopLeft="865,33" />
         <AnnotationLayout
           Text="Here we set the values of the audit columns of StageDB tables"
           ParentId="Package"
-          FontInfo="{assembly:Null}"
-          Size="357,40"
+          FontInfo="{x:Null}"
+          Size="356.8,40"
           Id="939efb69-58d2-4e63-ad52-91045b3a2e77"
           TopLeft="1047,135" />
         <AnnotationLayout
           Text="We create a list with all the IDs of the tables &#xA;that must be imported from Source System"
           ParentId="Package"
-          FontInfo="{assembly:Null}"
-          Size="263,56"
+          FontInfo="{x:Null}"
+          Size="263.2,56"
           Id="e5ffed94-1dce-45ee-a49a-4a17aeb883c9"
           TopLeft="101,131" />
         <AnnotationLayout
           Text="For each table ID in the list:&#xA;- get the names of the source and destination schema and table&#xA;- get the column mapping between source and destination tables"
           ParentId="Package"
-          FontInfo="{assembly:Null}"
+          FontInfo="{x:Null}"
           Size="376,72"
           Id="8130fac9-9217-49b3-9fbe-8078291ba9cb"
           TopLeft="946,285" />
@@ -1264,6 +3384,10 @@ SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableNam
   <ConnectionManager
     design-time-name="Package.ConnectionManagers[Config DB]">
     <DataSourceID>Config DB</DataSourceID>
+  </ConnectionManager>
+  <ConnectionManager
+    design-time-name="Package.ConnectionManagers[Data Store]">
+    <DataSourceID>Data Store</DataSourceID>
   </ConnectionManager>
   <ConnectionManager
     design-time-name="Package.ConnectionManagers[Msdb]">
@@ -1282,77 +3406,369 @@ SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableNam
     <DataSourceID>Stage DB</DataSourceID>
   </ConnectionManager>
   <TaskHost
-    design-time-name="Package\Foreach Loop - Load tables\Data Flow Task Plus - Load table">
+    design-time-name="Package\Foreach Loop - Load tables\Foreach Loop Container - Business dates to historize\Data Flow Task Plus - Load table">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="153.6,41.6"
-          Id="33"
-          TopLeft="176,152" />
-        <NodeLayout
-          Size="171.2,41.6"
+          Size="222.4,41.6"
           Id="16"
-          TopLeft="172,246" />
+          TopLeft="72.4081615692672,607.815131124741" />
         <NodeLayout
-          Size="150.4,41.6"
+          Size="155.2,41.6"
+          Id="64"
+          TopLeft="371.428577753962,447.462191149438" />
+        <NodeLayout
+          Size="208,41.6"
+          Id="46"
+          TopLeft="525.714294667147,257.81512966618" />
+        <NodeLayout
+          Size="223.2,41.6"
+          Id="129"
+          TopLeft="725.714298073127,610.890764870033" />
+        <NodeLayout
+          Size="225.6,41.6"
+          Id="110"
+          TopLeft="385.306129010704,611.764714462122" />
+        <NodeLayout
+          Size="211.2,41.6"
+          Id="33"
+          TopLeft="227.428572304395,340.773111891169" />
+        <NodeLayout
+          Size="212.8,41.6"
           Id="1"
-          TopLeft="175,69" />
+          TopLeft="226.428572304395,257.773111891169" />
         <EdgeLayout
-          Id="40"
-          TopLeft="255.25,194">
+          Id="75"
+          TopLeft="629.714294667147,299.41512966618">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{x:Null}"
-              EndConnector="0,52"
+              EndConnector="-156.152383579851,148.047061483258"
               Start="0,0"
-              End="0,44.5">
+              End="-156.152383579851,140.547061483258">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,44.5" />
+                    End="0,83.921826309445" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,83.921826309445"
+                    Point2="0,87.921826309445"
+                    Point3="-4,87.921826309445" />
+                  <mssgle:LineSegment
+                    End="-152.152383579851,87.921826309445" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-152.152383579851,87.921826309445"
+                    Point2="-156.152383579851,87.921826309445"
+                    Point3="-156.152383579851,91.921826309445" />
+                  <mssgle:LineSegment
+                    End="-156.152383579851,140.547061483258" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="149"
+          TopLeft="485.828577753962,489.062191149438">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="351.485720319164,121.828573720595"
+              Start="0,0"
+              End="351.485720319164,114.328573720595">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,37.9814679712863" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,37.9814679712863"
+                    Point2="0,41.9814679712863"
+                    Point3="4,41.9814679712863" />
+                  <mssgle:LineSegment
+                    End="347.485720319164,41.9814679712863" />
+                  <mssgle:CubicBezierSegment
+                    Point1="347.485720319164,41.9814679712863"
+                    Point2="351.485720319164,41.9814679712863"
+                    Point3="351.485720319164,45.9814679712863" />
+                  <mssgle:LineSegment
+                    End="351.485720319164,114.328573720595" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
+              BoundingBox="158.584871878332,46.9814679712863,34.3159765625,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="148"
+          TopLeft="473.561911087296,489.062191149438">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="24.5442179234082,122.702523312684"
+              Start="0,0"
+              End="24.5442179234082,115.202523312684">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,45.8322492637228" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,45.8322492637228"
+                    Point2="0,49.8322492637228"
+                    Point3="4,49.8322492637228" />
+                  <mssgle:LineSegment
+                    End="20.5442179234082,49.8322492637228" />
+                  <mssgle:CubicBezierSegment
+                    Point1="20.5442179234082,49.8322492637228"
+                    Point2="24.5442179234082,49.8322492637228"
+                    Point3="24.5442179234082,53.8322492637228" />
+                  <mssgle:LineSegment
+                    End="24.5442179234082,115.202523312684" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-17.7800394757959,54.8322492637228,60.104296875,11.609375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="39"
-          TopLeft="251.5,111">
+          TopLeft="332.928572304395,299.373111891169">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{x:Null}"
-              EndConnector="0,41"
+              EndConnector="0,41.4"
               Start="0,0"
-              End="0,33.5">
+              End="0,33.9">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,33.5" />
+                    End="0,33.9" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="109"
+          TopLeft="449.028577753963,489.062191149438">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="-265.420416184695,118.752939975303"
+              Start="0,0"
+              End="-265.420416184695,111.252939975303">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,55.3764699876515" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,55.3764699876515"
+                    Point2="0,59.3764699876515"
+                    Point3="-4,59.3764699876515" />
+                  <mssgle:LineSegment
+                    End="-261.420416184695,59.3764699876515" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-261.420416184695,59.3764699876515"
+                    Point2="-265.420416184695,59.3764699876515"
+                    Point3="-265.420416184695,63.3764699876515" />
+                  <mssgle:LineSegment
+                    End="-265.420416184695,111.252939975303" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
+              BoundingBox="-142.944251061098,64.3764699876515,20.4680859375,9.3974609375"
               RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="73"
+          TopLeft="333.028572304395,382.373111891169">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="116.000005449568,65.0890792582687"
+              Start="0,0"
+              End="116.000005449568,57.5890792582687">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,28.5445396291343" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,28.5445396291343"
+                    Point2="0,32.5445396291343"
+                    Point3="4,32.5445396291343" />
+                  <mssgle:LineSegment
+                    End="112.000005449568,32.5445396291343" />
+                  <mssgle:CubicBezierSegment
+                    Point1="112.000005449568,32.5445396291343"
+                    Point2="116.000005449568,32.5445396291343"
+                    Point3="116.000005449568,36.5445396291343" />
+                  <mssgle:LineSegment
+                    End="116.000005449568,57.5890792582687" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <AnnotationLayout
           Text="IMPORTANT: Edit the OLE DB SRC/DEST only using Show Advanced Editor&#xA;The SRC should have only a dummy column named THUNK_COLUMN, the rest of the columns will be set dynamically"
-          ParentId="Package\Foreach Loop - Load tables\Data Flow Task Plus - Load table"
+          ParentId="Package\Foreach Loop - Load tables\Foreach Loop Container - Business dates to historize\Data Flow Task Plus - Load table"
           FontInfo="{x:Null}"
-          Size="648,NaN"
+          Size="648,56"
           Id="58001010-6603-4d22-be02-80236930ff11"
           TopLeft="452,67" />
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <TaskHost
+    design-time-name="Package\Foreach Loop - Load tables\Foreach Loop Container - Business dates to historize\Data Flow Task Plus - Add inserts">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="206.4,41.6"
+          Id="1"
+          TopLeft="304,152" />
+        <NodeLayout
+          Size="279.2,41.6"
+          Id="19"
+          TopLeft="606.4,152" />
+        <NodeLayout
+          Size="120,41.6"
+          Id="37"
+          TopLeft="496,256.8" />
+        <EdgeLayout
+          Id="40"
+          TopLeft="407.2,193.6">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="148.8,63.2"
+              Start="0,0"
+              End="148.8,55.7">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,27.6" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,27.6"
+                    Point2="0,31.6"
+                    Point3="4,31.6" />
+                  <mssgle:LineSegment
+                    End="144.8,31.6" />
+                  <mssgle:CubicBezierSegment
+                    Point1="144.8,31.6"
+                    Point2="148.8,31.6"
+                    Point3="148.8,35.6" />
+                  <mssgle:LineSegment
+                    End="148.8,55.7" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="45"
+          TopLeft="746,193.6">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="-171.333333333333,63.2"
+              Start="0,0"
+              End="-171.333333333333,55.7">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,33.4210526315789" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,33.4210526315789"
+                    Point2="0,37.4210526315789"
+                    Point3="-4,37.4210526315789" />
+                  <mssgle:LineSegment
+                    End="-167.333333333333,37.4210526315789" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-167.333333333333,37.4210526315789"
+                    Point2="-171.333333333333,37.4210526315789"
+                    Point3="-171.333333333333,41.4210526315789" />
+                  <mssgle:LineSegment
+                    End="-171.333333333333,55.7" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="254.4,41.6"
+          Id="49"
+          TopLeft="452,352.8" />
+        <EdgeLayout
+          Id="68"
+          TopLeft="556,298.4">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="23.1999999999999,54.4"
+              Start="0,0"
+              End="23.1999999999999,46.9">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,23.2" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,23.2"
+                    Point2="0,27.2"
+                    Point3="4,27.2" />
+                  <mssgle:LineSegment
+                    End="19.1999999999999,27.2" />
+                  <mssgle:CubicBezierSegment
+                    Point1="19.1999999999999,27.2"
+                    Point2="23.1999999999999,27.2"
+                    Point3="23.1999999999999,31.2" />
+                  <mssgle:LineSegment
+                    End="23.1999999999999,46.9" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>

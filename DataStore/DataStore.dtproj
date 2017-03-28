@@ -39,11 +39,6 @@
     <Manifest>
       <DTSPackages>
         <DtsPackage FormatVersion="8">
-          <Name>Package.dtsx</Name>
-          <FullPath>Package.dtsx</FullPath>
-          <References />
-        </DtsPackage>
-        <DtsPackage FormatVersion="0">
           <Name>Historize.dtsx</Name>
           <FullPath>Historize.dtsx</FullPath>
           <References />
@@ -84,6 +79,11 @@
             <Name>Stage DB</Name>
             <Value xsi:type="xsd:string">Provider=SQLNCLI11.1;Data Source=ED-LAPTOP\SQLEXPRESS;Integrated Security=SSPI;Initial Catalog=StageDB</Value>
           </ConfigurationSetting>
+          <ConfigurationSetting>
+            <Id>Data Store</Id>
+            <Name>Data Store</Name>
+            <Value xsi:type="xsd:string">Provider=SQLNCLI11.1;Data Source=ED-LAPTOP\SQLEXPRESS;Integrated Security=SSPI;Initial Catalog=DataStore</Value>
+          </ConfigurationSetting>
         </ConnectionMappings>
         <ConnectionProviderMappings />
         <ConnectionSecurityMappings>
@@ -110,6 +110,11 @@
           <ConfigurationSetting>
             <Id>Stage DB</Id>
             <Name>Stage DB</Name>
+            <Value xsi:type="xsd:int">0</Value>
+          </ConfigurationSetting>
+          <ConfigurationSetting>
+            <Id>Data Store</Id>
+            <Name>Data Store</Name>
             <Value xsi:type="xsd:int">0</Value>
           </ConfigurationSetting>
         </ConnectionSecurityMappings>
