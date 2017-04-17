@@ -12,8 +12,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Stage"
   DTS:PackageType="5"
-  DTS:VersionBuild="72"
-  DTS:VersionGUID="{15D8CBB8-3890-4ECF-B294-D621CEAEDCEC}">
+  DTS:VersionBuild="75"
+  DTS:VersionGUID="{FA2A96A7-B1D6-4B93-9282-A265F87CE50C}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -153,7 +153,7 @@
       DTS:Namespace="User"
       DTS:ObjectName="BUSINESS_DATE">
       <DTS:VariableValue
-        DTS:DataType="7">3/27/2017</DTS:VariableValue>
+        DTS:DataType="7">4/8/2017</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -195,6 +195,16 @@
       DTS:ObjectName="DestinationTableName">
       <DTS:VariableValue
         DTS:DataType="8">.</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{1B4A6479-DB3A-4B3C-9D28-8194562502A4}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="FilterValue">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -241,7 +251,18 @@
       DTS:Namespace="User"
       DTS:ObjectName="LOAD_TIME">
       <DTS:VariableValue
-        DTS:DataType="7">3/28/2017 11:03:06 PM</DTS:VariableValue>
+        DTS:DataType="7">4/9/2017 10:39:40 PM</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{C9AE25A6-3D07-4F34-B47F-AAA43C96A5F0}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;SELECT * FROM &quot; + @[User::SourceTableName]  + ( LEN( TRIM( @[User::FilterValue]  )  ) &gt;0 ? &quot; WHERE  &quot; +  @[User::FilterValue] : &quot;&quot;)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="SorceTable_Filtered">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT * FROM dbo.Table_A</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -270,8 +291,7 @@
       DTS:Namespace="User"
       DTS:ObjectName="SourceSchema">
       <DTS:VariableValue
-        DTS:DataType="8"
-        xml:space="preserve"></DTS:VariableValue>
+        DTS:DataType="8">dbo</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -289,8 +309,7 @@
       DTS:Namespace="User"
       DTS:ObjectName="SourceTable">
       <DTS:VariableValue
-        DTS:DataType="8"
-        xml:space="preserve"></DTS:VariableValue>
+        DTS:DataType="8">Table_A</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -301,7 +320,7 @@
       DTS:Namespace="User"
       DTS:ObjectName="SourceTableName">
       <DTS:VariableValue
-        DTS:DataType="8">.</DTS:VariableValue>
+        DTS:DataType="8">dbo.Table_A</DTS:VariableValue>
     </DTS:Variable>
   </DTS:Variables>
   <DTS:LoggingOptions
@@ -455,7 +474,7 @@ WHERE s.SourceSystemID=" +  (DT_WSTR, 10) @[User::SourceSystemID]</DTS:PropertyE
                       id="6"
                       name="SqlCommandVariable"
                       dataType="System.String"
-                      description="The variable that contains the SQL command to be executed."></property>
+                      description="The variable that contains the SQL command to be executed.">User::SorceTable_Filtered</property>
                     <property
                       id="7"
                       name="DefaultCodePage"
@@ -471,7 +490,7 @@ WHERE s.SourceSystemID=" +  (DT_WSTR, 10) @[User::SourceSystemID]</DTS:PropertyE
                       name="AccessMode"
                       dataType="System.Int32"
                       description="Specifies the mode used to access the database."
-                      typeConverter="AccessMode">1</property>
+                      typeConverter="AccessMode">3</property>
                     <property
                       id="15"
                       name="ParameterMapping"
@@ -862,7 +881,7 @@ WHERE s.SourceSystemID=" +  (DT_WSTR, 10) @[User::SourceSystemID]</DTS:PropertyE
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{12725851-3A9C-4143-AB16-7CC7DF64D336}"
-              SQLTask:SqlStatementSource="UPDATE dbo.TABLE_LOAD_AUDIT SET LOAD_STATUS = 'STAGED' WHERE TABLE_SCHEMA='' AND TABLE_NAME = '' AND BUSINESS_DATE='2017-03-27'" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              SQLTask:SqlStatementSource="UPDATE dbo.TABLE_LOAD_AUDIT SET LOAD_STATUS = 'STAGED' WHERE TABLE_SCHEMA='' AND TABLE_NAME = '' AND BUSINESS_DATE='2017-04-08'" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
@@ -944,10 +963,10 @@ DECLARE @SourceTableName SYSNAME;
 DECLARE @DestinationSchema SYSNAME;
 DECLARE @DestinationTableName SYSNAME;
 
-DECLARE @SortColumns SYSNAME; DECLARE @LoadType SYSNAME; 
+DECLARE @SortColumns SYSNAME; DECLARE @LoadType SYSNAME; DECLARE @RowFilter SYSNAME; 
 SELECT 
 		@SourceSchema = SourceSchema,
-		@SourceTableName = SourceTableName
+		@SourceTableName = SourceTableName, @RowFilter = RowFilter 
 FROM	dbo.SourceTable	
 WHERE	SourceTableID = " +   (DT_WSTR, 10) @[User::ID] + ";
 
@@ -973,11 +992,11 @@ GROUP BY DestinationTableID) T
 where T.DestinationTableID=" +   (DT_WSTR, 10) @[User::ID] + ";
 
 
-SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableName,  @SortColumns,@LoadType;"</DTS:PropertyExpression>
+SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableName,  @SortColumns,@LoadType, @RowFilter;"</DTS:PropertyExpression>
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{6FC27CC4-2875-4465-AE4F-9A576AD4DA72}"
-              SQLTask:SqlStatementSource="DECLARE @SourceSchema SYSNAME;&#xA;DECLARE @SourceTableName SYSNAME;&#xA;DECLARE @DestinationSchema SYSNAME;&#xA;DECLARE @DestinationTableName SYSNAME;&#xA;&#xA;DECLARE @SortColumns SYSNAME; DECLARE @LoadType SYSNAME; &#xA;SELECT &#xA;&#x9;&#x9;@SourceSchema = SourceSchema,&#xA;&#x9;&#x9;@SourceTableName = SourceTableName&#xA;FROM&#x9;dbo.SourceTable&#x9;&#xA;WHERE&#x9;SourceTableID = 0;&#xA;&#xA;SELECT &#xA;&#x9;&#x9;@DestinationSchema = DestinationSchema,&#xA;&#x9;&#x9;@DestinationTableName = DestinationTableName,&#xA;&#x9;&#x9; @LoadType=LoadType &#xA;FROM&#x9;dbo.DestinationTable&#x9;&#xA;WHERE&#x9;DestinationTableID = 0;&#xA;&#xA;SELECT @SortColumns=SortColumns from (&#xA;SELECT DestinationTableID, STUFF(  &#xA;        (  &#xA;        SELECT ',' + T2.DestinationColumnName &#xA;&#xA;&#x9;&#x9;FROM DestinationColumn T2  &#xA;        WHERE T1.DestinationTableID = T2.DestinationTableID  &#xA;&#x9;&#x9;and T2.KeyOrder is not null order by T2.KeyOrder&#xA;        FOR XML PATH ('')  &#xA;        ),1,1,'') as SortColumns&#xA;FROM DestinationColumn T1 &#xA;GROUP BY DestinationTableID) T &#xA;where T.DestinationTableID=0;&#xA;&#xA;&#xA;SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableName,  @SortColumns,@LoadType;"
+              SQLTask:SqlStatementSource="DECLARE @SourceSchema SYSNAME;&#xA;DECLARE @SourceTableName SYSNAME;&#xA;DECLARE @DestinationSchema SYSNAME;&#xA;DECLARE @DestinationTableName SYSNAME;&#xA;&#xA;DECLARE @SortColumns SYSNAME; DECLARE @LoadType SYSNAME; DECLARE @RowFilter SYSNAME; &#xA;SELECT &#xA;&#x9;&#x9;@SourceSchema = SourceSchema,&#xA;&#x9;&#x9;@SourceTableName = SourceTableName, @RowFilter = RowFilter &#xA;FROM&#x9;dbo.SourceTable&#x9;&#xA;WHERE&#x9;SourceTableID = 0;&#xA;&#xA;SELECT &#xA;&#x9;&#x9;@DestinationSchema = DestinationSchema,&#xA;&#x9;&#x9;@DestinationTableName = DestinationTableName,&#xA;&#x9;&#x9; @LoadType=LoadType &#xA;FROM&#x9;dbo.DestinationTable&#x9;&#xA;WHERE&#x9;DestinationTableID = 0;&#xA;&#xA;SELECT @SortColumns=SortColumns from (&#xA;SELECT DestinationTableID, STUFF(  &#xA;        (  &#xA;        SELECT ',' + T2.DestinationColumnName &#xA;&#xA;&#x9;&#x9;FROM DestinationColumn T2  &#xA;        WHERE T1.DestinationTableID = T2.DestinationTableID  &#xA;&#x9;&#x9;and T2.KeyOrder is not null order by T2.KeyOrder&#xA;        FOR XML PATH ('')  &#xA;        ),1,1,'') as SortColumns&#xA;FROM DestinationColumn T1 &#xA;GROUP BY DestinationTableID) T &#xA;where T.DestinationTableID=0;&#xA;&#xA;&#xA;SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableName,  @SortColumns,@LoadType, @RowFilter;"
               SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ResultBinding
                 SQLTask:ResultName="0"
@@ -997,6 +1016,9 @@ SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableNam
               <SQLTask:ResultBinding
                 SQLTask:ResultName="5"
                 SQLTask:DtsVariableName="User::LoadType" />
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="6"
+                SQLTask:DtsVariableName="User::FilterValue" />
             </SQLTask:SqlTaskData>
           </DTS:ObjectData>
         </DTS:Executable>
@@ -1012,11 +1034,11 @@ SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableNam
           DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:PropertyExpression
-            DTS:Name="SqlStatementSource">"EXEC dbo.AuditTableLoad '" + @[User::DestinationSchema] + "','"+ @[User::DestinationTable] + "','" + (DT_WSTR, 20)  (DT_DBDATE) @[User::BUSINESS_DATE] +"','"+ @[System::ExecutionInstanceGUID] +"','"+ (DT_WSTR, 30) @[User::LOAD_TIME] +"','BEFORE STAGE'"</DTS:PropertyExpression>
+            DTS:Name="SqlStatementSource">"EXEC dbo.AuditTableLoad '" + @[User::DestinationSchema] + "','"+ @[User::DestinationTable] + "','" + (DT_WSTR, 20)  (DT_DBDATE) @[User::BUSINESS_DATE] +"','"+ @[System::ExecutionInstanceGUID] +"','"+ (DT_WSTR, 30) @[User::LOAD_TIME] +"','NOT_STAGED'"</DTS:PropertyExpression>
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{12725851-3A9C-4143-AB16-7CC7DF64D336}"
-              SQLTask:SqlStatementSource="EXEC dbo.AuditTableLoad '','','2017-03-27','{18848172-EE55-4B7F-A8DC-34EFD9925D54}','3/28/2017 11:03:06 PM','BEFORE STAGE'" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              SQLTask:SqlStatementSource="EXEC dbo.AuditTableLoad '','','2017-04-08','{AD8BB6D2-A483-4687-9E39-CD6F1BBF98CF}','4/9/2017 10:39:40 PM','NOT_STAGED'" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
       </DTS:Executables>
@@ -1101,37 +1123,37 @@ SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableNam
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssge="clr-namespace:Microsoft.SqlServer.Graph.Extended;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssge="clr-namespace:Microsoft.SqlServer.Graph.Extended;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
         <NodeLayout
-          Size="312.8,41.6"
+          Size="313,42"
           Id="Package\Execute SQL Task -  Technical and Audit Columns"
           TopLeft="702,132" />
         <NodeLayout
-          Size="376,41.6"
+          Size="376,42"
           Id="Package\Execute SQL Task - Get connection string for source system ID"
           TopLeft="468,50" />
         <NodeLayout
-          Size="239.2,41.6"
+          Size="239,42"
           Id="Package\Execute SQL Task - Get Table IDs"
           TopLeft="375,129" />
         <NodeLayout
-          Size="361.6,41.6"
+          Size="362,42"
           Id="Package\Foreach Loop - Load tables\Data Flow Task Plus - Load table"
           TopLeft="59,241" />
         <NodeLayout
-          Size="359.2,41.6"
+          Size="359,42"
           Id="Package\Foreach Loop - Load tables\Execute SQL Task - End audit load"
           TopLeft="61,317" />
         <NodeLayout
-          Size="364,41.6"
+          Size="364,42"
           Id="Package\Foreach Loop - Load tables\Execute SQL Task - Get Source and Destination Column Info"
           TopLeft="55,95" />
         <NodeLayout
-          Size="361.6,41.6"
+          Size="362,42"
           Id="Package\Foreach Loop - Load tables\Execute SQL Task - Get Source and Destination Table Info"
           TopLeft="51,26" />
         <NodeLayout
-          Size="356,41.6"
+          Size="356,42"
           Id="Package\Foreach Loop - Load tables\Execute SQL Task - Start audit load"
           TopLeft="59,164" />
         <EdgeLayout
@@ -1139,7 +1161,7 @@ SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableNam
           TopLeft="234.5,68">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{x:Null}"
+              StartConnector="{assembly:Null}"
               EndConnector="0,27"
               Start="0,0"
               End="0,19.5">
@@ -1161,7 +1183,7 @@ SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableNam
           TopLeft="237,137">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{x:Null}"
+              StartConnector="{assembly:Null}"
               EndConnector="0,27"
               Start="0,0"
               End="0,19.5">
@@ -1183,7 +1205,7 @@ SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableNam
           TopLeft="238.5,206">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{x:Null}"
+              StartConnector="{assembly:Null}"
               EndConnector="0,35"
               Start="0,0"
               End="0,27.5">
@@ -1205,7 +1227,7 @@ SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableNam
           TopLeft="240.25,283">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{x:Null}"
+              StartConnector="{assembly:Null}"
               EndConnector="0,34"
               Start="0,0"
               End="0,26.5">
@@ -1225,8 +1247,8 @@ SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableNam
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="548.8,416"
-          Size="548.8,459.2"
+          PanelSize="549,416"
+          Size="549,459"
           Id="Package\Foreach Loop - Load tables"
           TopLeft="377,226" />
         <EdgeLayout
@@ -1234,7 +1256,7 @@ SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableNam
           TopLeft="494.5,171">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{x:Null}"
+              StartConnector="{assembly:Null}"
               EndConnector="21.75,55"
               Start="0,0"
               End="21.75,47.5">
@@ -1268,7 +1290,7 @@ SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableNam
           TopLeft="858.5,174">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{x:Null}"
+              StartConnector="{assembly:Null}"
               EndConnector="-71.75,52"
               Start="0,0"
               End="-71.75,44.5">
@@ -1302,7 +1324,7 @@ SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableNam
           TopLeft="653.75,92">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{x:Null}"
+              StartConnector="{assembly:Null}"
               EndConnector="0,134"
               Start="0,0"
               End="0,126.5">
@@ -1322,7 +1344,7 @@ SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableNam
         <AnnotationLayout
           Text="1 - BEFORE CONFIGURING THIS DTSX:&#xA;- make sure that all DBs are created"
           ParentId="Package"
-          Size="308,58.4"
+          Size="308,58"
           Id="ae1f3ac7-65e5-45ee-87c6-136921d6bd03"
           TopLeft="32,18">
           <AnnotationLayout.FontInfo>
@@ -1340,38 +1362,31 @@ SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableNam
         <AnnotationLayout
           Text="The SOURCE SYSTEM connection is dynamic, &#xA;its connection string is retrieved from SSISConfiguration, based on the SourceSystemID variable,&#xA;which is set at runtime (for example passed as a job parameter)"
           ParentId="Package"
-          FontInfo="{x:Null}"
+          FontInfo="{assembly:Null}"
           Size="536,72"
           Id="149aed85-c1e5-4ce3-8e9f-e2ac87d4625c"
           TopLeft="865,33" />
         <AnnotationLayout
           Text="Here we set the values of the audit columns of StageDB tables"
           ParentId="Package"
-          FontInfo="{x:Null}"
-          Size="356.8,40"
+          FontInfo="{assembly:Null}"
+          Size="357,40"
           Id="939efb69-58d2-4e63-ad52-91045b3a2e77"
           TopLeft="1047,135" />
         <AnnotationLayout
           Text="We create a list with all the IDs of the tables &#xA;that must be imported from Source System"
           ParentId="Package"
-          FontInfo="{x:Null}"
-          Size="263.2,56"
+          FontInfo="{assembly:Null}"
+          Size="263,56"
           Id="e5ffed94-1dce-45ee-a49a-4a17aeb883c9"
           TopLeft="101,131" />
         <AnnotationLayout
           Text="For each table ID in the list:&#xA;- get the names of the source and destination schema and table&#xA;- get the column mapping between source and destination tables"
           ParentId="Package"
-          FontInfo="{x:Null}"
+          FontInfo="{assembly:Null}"
           Size="376,72"
           Id="8130fac9-9217-49b3-9fbe-8078291ba9cb"
           TopLeft="946,285" />
-        <AnnotationLayout
-          Text="Git"
-          ParentId="Package"
-          FontInfo="{x:Null}"
-          Size="44,40"
-          Id="2dd828d8-7b61-46d1-abac-712b766bb073"
-          TopLeft="1030,480" />
       </GraphLayout>
     </LayoutInfo>
   </Package>
@@ -1401,15 +1416,15 @@ SELECT @SourceSchema, @SourceTableName, @DestinationSchema, @DestinationTableNam
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="153.6,41.6"
+          Size="154,42"
           Id="33"
           TopLeft="176,152" />
         <NodeLayout
-          Size="171.2,41.6"
+          Size="171,42"
           Id="16"
           TopLeft="172,246" />
         <NodeLayout
-          Size="150.4,41.6"
+          Size="150,42"
           Id="1"
           TopLeft="175,69" />
         <EdgeLayout
