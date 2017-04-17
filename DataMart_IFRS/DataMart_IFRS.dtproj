@@ -8,14 +8,31 @@
     <Name>DataMart_IFRS.database</Name>
     <FullPath>DataMart_IFRS.database</FullPath>
   </Database>
-  <DataSources />
+  <DataSources>
+    <ProjectItem>
+      <Name>Config DB.ds</Name>
+      <FullPath>Config DB.ds</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>Data Store.ds</Name>
+      <FullPath>Data Store.ds</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>DM IFRS.ds</Name>
+      <FullPath>DM IFRS.ds</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>Msdb.ds</Name>
+      <FullPath>Msdb.ds</FullPath>
+    </ProjectItem>
+  </DataSources>
   <DataSourceViews />
   <DeploymentModelSpecificContent>
     <Manifest>
       <DTSPackages>
         <DtsPackage FormatVersion="8">
-          <Name>Package.dtsx</Name>
-          <FullPath>Package.dtsx</FullPath>
+          <Name>TemplatePackage.dtsx</Name>
+          <FullPath>TemplatePackage.dtsx</FullPath>
           <References />
         </DtsPackage>
       </DTSPackages>
@@ -28,9 +45,51 @@
       <Name>Development</Name>
       <Options>
         <OutputPath>bin</OutputPath>
-        <ConnectionMappings />
+        <ConnectionMappings>
+          <ConfigurationSetting>
+            <Id>DM IFRS</Id>
+            <Name>DM IFRS</Name>
+            <Value xsi:type="xsd:string">Provider=SQLNCLI11.1;Data Source=ED-LAPTOP\SQLEXPRESS;Integrated Security=SSPI;Initial Catalog=DM_IFRS</Value>
+          </ConfigurationSetting>
+          <ConfigurationSetting>
+            <Id>Config DB</Id>
+            <Name>Config DB</Name>
+            <Value xsi:type="xsd:string">Provider=SQLNCLI11.1;Data Source=ED-LAPTOP\SQLEXPRESS;Integrated Security=SSPI;Initial Catalog=ConfigDB</Value>
+          </ConfigurationSetting>
+          <ConfigurationSetting>
+            <Id>Data Store</Id>
+            <Name>Data Store</Name>
+            <Value xsi:type="xsd:string">Provider=SQLNCLI11.1;Data Source=ED-LAPTOP\SQLEXPRESS;Integrated Security=SSPI;Initial Catalog=DataStore</Value>
+          </ConfigurationSetting>
+          <ConfigurationSetting>
+            <Id>Msdb</Id>
+            <Name>Msdb</Name>
+            <Value xsi:type="xsd:string">Provider=SQLNCLI11.1;Data Source=ED-LAPTOP\SQLEXPRESS;Integrated Security=SSPI;Initial Catalog=msdb</Value>
+          </ConfigurationSetting>
+        </ConnectionMappings>
         <ConnectionProviderMappings />
-        <ConnectionSecurityMappings />
+        <ConnectionSecurityMappings>
+          <ConfigurationSetting>
+            <Id>DM IFRS</Id>
+            <Name>DM IFRS</Name>
+            <Value xsi:type="xsd:int">0</Value>
+          </ConfigurationSetting>
+          <ConfigurationSetting>
+            <Id>Config DB</Id>
+            <Name>Config DB</Name>
+            <Value xsi:type="xsd:int">0</Value>
+          </ConfigurationSetting>
+          <ConfigurationSetting>
+            <Id>Data Store</Id>
+            <Name>Data Store</Name>
+            <Value xsi:type="xsd:int">0</Value>
+          </ConfigurationSetting>
+          <ConfigurationSetting>
+            <Id>Msdb</Id>
+            <Name>Msdb</Name>
+            <Value xsi:type="xsd:int">0</Value>
+          </ConfigurationSetting>
+        </ConnectionSecurityMappings>
         <DatabaseStorageLocations />
         <TargetServerVersion>SQLServer2016</TargetServerVersion>
         <ParameterConfigurationValues />
